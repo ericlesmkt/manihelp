@@ -26,7 +26,7 @@ import NewAppointmentModal from '../../components/NewAppointmentModal';
 
 
 // --- Tipos de Dados (Baseados no seu esquema) ---
-// CORREÇÃO CRÍTICA: Os IDs de JOIN vêm como ARRAY de objetos
+// Tipos auxiliares corrigidos (JOINs retornam arrays)
 type ProfileData = { id: string; name: string; phone_number: string };
 type ServiceData = { id: number; name: string; price: number };
 
@@ -36,7 +36,7 @@ type AppointmentItem = {
     end_time: string;
     status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
     
-    // CORRIGIDO: Tipado como array, mesmo que só tenha um item
+    // CORRIGIDO: Tipado como array
     client_id: ProfileData[] | null; 
     service_id: ServiceData[] | null; 
 };
@@ -155,8 +155,8 @@ function Header({ user }: { user: { name: string, avatarUrl: string } }) {
 function UpcomingAppointments({ appointments, isLoading, error }: { appointments: AppointmentItem[], isLoading: boolean, error: string | null }) {
   
   // FUNÇÃO AUXILIAR PARA ACESSAR OS DADOS DO JOIN CORRETAMENTE
-  const getClientName = (appt: AppointmentItem) => appt.client_id ? appt.client_id[0]?.name : 'Cliente Desconhecido';
-  const getServiceName = (appt: AppointmentItem) => appt.service_id ? appt.service_id[0]?.name : 'Serviço Removido';
+  const getClientName = (appt: AppointmentItem) => appt.client_id && appt.client_id[0] ? appt.client_id[0].name : 'Cliente Desconhecido';
+  const getServiceName = (appt: AppointmentItem) => appt.service_id && appt.service_id[0] ? appt.service_id[0].name : 'Serviço Removido';
 
   if (isLoading) {
     return (
@@ -201,9 +201,9 @@ function UpcomingAppointments({ appointments, isLoading, error }: { appointments
             const isConfirmed = appt.status === 'confirmed' || appt.status === 'completed';
             
             return (
-            <li key={appt.id} className="p-6 flex items-center justify-between hover:bg-gray-50 transition-colors">
-                <div className="flex items-center space-x-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-mani-pink-100 text-mani-pink-600 rounded-full flex items-center justify-center font-bold text-lg">
+            <li key={appt.id} className="p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:bg-gray-50 transition-colors">
+                <div className="flex items-start space-x-4">
+                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-mani-pink-100 text-mani-pink-600 rounded-full flex items-center justify-center font-bold text-base sm:text-lg">
                     {time.split(':')[0]}h
                 </div>
                 <div>
@@ -213,7 +213,7 @@ function UpcomingAppointments({ appointments, isLoading, error }: { appointments
                 </div>
                 </div>
                 
-                <div className="flex items-center space-x-3">
+                <div className="mt-3 sm:mt-0 flex items-center space-x-3">
                 {isConfirmed ? (
                     <span className="flex items-center text-xs font-medium text-green-600 bg-green-100 px-3 py-1 rounded-full">
                     <Check className="w-3 h-3 mr-1" />
@@ -247,8 +247,8 @@ function UpcomingAppointments({ appointments, isLoading, error }: { appointments
 function PendingAppointmentsCard({ appointments, onConfirm, isConfirming }: { appointments: AppointmentItem[], onConfirm: (id: number) => void, isConfirming: number | null }) {
     
     // FUNÇÃO AUXILIAR PARA ACESSAR OS DADOS DO JOIN CORRETAMENTE
-    const getClientName = (appt: AppointmentItem) => appt.client_id ? appt.client_id[0]?.name : 'Cliente Desconhecido';
-    const getServiceName = (appt: AppointmentItem) => appt.service_id ? appt.service_id[0]?.name : 'Serviço Removido';
+    const getClientName = (appt: AppointmentItem) => appt.client_id && appt.client_id[0] ? appt.client_id[0].name : 'Cliente Desconhecido';
+    const getServiceName = (appt: AppointmentItem) => appt.service_id && appt.service_id[0] ? appt.service_id[0].name : 'Serviço Removido';
 
     // Filtra agendamentos PENDENTES E FUTUROS
     const pendingAppointments = appointments.filter(appt => {
@@ -277,7 +277,7 @@ function PendingAppointmentsCard({ appointments, onConfirm, isConfirming }: { ap
                     const isBusy = isConfirming === appt.id;
 
                     return (
-                        <li key={appt.id} className="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:bg-yellow-50 transition-colors">
+                        <li key={appt.id} className="p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:bg-yellow-50 transition-colors">
                             
                             {/* Informações */}
                             <div className="flex-1 space-y-1 sm:space-y-0 sm:flex sm:items-center sm:space-x-4">
@@ -320,9 +320,9 @@ function PendingAppointmentsCard({ appointments, onConfirm, isConfirming }: { ap
 // --- Componente: SummaryCard ---
 function SummaryCard({ stats }: { stats: SummaryStat[] }) {
   const statIcons: { [key: string]: React.ElementType } = {
-    'Clientes Hoje': Users,
-    'Receita Estimada': DollarSign,
-    'Novos Clientes (Mês)': UserIcon,
+    'Agendamentos Hoje': Calendar,
+    'Requisições Pendentes': AlertTriangle,
+    'Receita Estimada (Hoje)': DollarSign,
   };
 
   return (
@@ -416,7 +416,6 @@ export default function DashboardPage() {
         throw new Error(error.message);
       }
       
-      // CORREÇÃO: Converte o array retornado para o tipo correto (sem o erro)
       setAllAppointments(data as AppointmentItem[]);
 
     } catch (e: any) {

@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { User, Search, Phone, Calendar, Loader2, AlertTriangle } from 'lucide-react';
+import { User, Search, Phone, Calendar, Loader2, AlertTriangle, ArrowRight } from 'lucide-react';
 
 // --- Tipos ---
 type ClientData = {
@@ -24,28 +24,18 @@ export default function ClientList({ manicureId }: ClientListProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Função de busca de clientes (a busca de dados é complexa aqui)
+    // Função de busca de clientes
     const fetchClients = useCallback(async () => {
         setIsLoading(true);
         setError(null);
 
         try {
-            // NOTE: A busca por histórico e contagem (total_appointments e last_service_date)
-            // é muito complexa de fazer em uma única query RLS-friendly do Supabase.
-            // Para a V1, vamos buscar apenas os clientes e suas informações básicas.
-
+            // Busca apenas os perfis de clientes
             let query = supabase
                 .from('profiles')
                 .select(`id, name, phone_number, role`)
                 .eq('role', 'client')
                 .order('name', { ascending: true });
-            
-            if (searchTerm) {
-                // Filtro por nome ou telefone
-                query = query
-                    .ilike('name', `%${searchTerm}%`);
-                    // .or(`name.ilike.%${searchTerm}%,phone_number.ilike.%${searchTerm}%`); // Futuramente, após configurar o full-text search
-            }
             
             const { data, error } = await query;
 
@@ -53,13 +43,12 @@ export default function ClientList({ manicureId }: ClientListProps) {
                 throw new Error(error.message);
             }
             
-            // Mapeia para o formato final (sem o histórico complexo por enquanto)
             const clientList: ClientData[] = (data || []).map(client => ({
                 id: client.id,
                 name: client.name,
                 phone_number: client.phone_number,
-                total_appointments: 0, // Mockado por enquanto
-                last_service_date: null, // Mockado por enquanto
+                total_appointments: Math.floor(Math.random() * 10), // Mock de histórico
+                last_service_date: "20/Out" // Mock de data
             }));
 
             setClients(clientList);
@@ -70,13 +59,13 @@ export default function ClientList({ manicureId }: ClientListProps) {
         } finally {
             setIsLoading(false);
         }
-    }, [searchTerm]); // Re-executa quando o termo de busca muda
+    }, [manicureId]); 
 
     useEffect(() => {
         fetchClients();
     }, [fetchClients]);
 
-    // Aplica o filtro de telefone manualmente (já que a query Supabase é limitada)
+    // Filtro (agora usando o estado clients)
     const filteredClients = clients.filter(client => 
         client.phone_number.includes(searchTerm) || client.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -85,7 +74,7 @@ export default function ClientList({ manicureId }: ClientListProps) {
     return (
         <div className="space-y-6">
             
-            {/* Barra de Busca */}
+            {/* Barra de Busca (Responsiva) */}
             <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
@@ -117,10 +106,11 @@ export default function ClientList({ manicureId }: ClientListProps) {
             ) : (
                 <ul className="divide-y divide-gray-100">
                     {filteredClients.map(client => (
-                        <li key={client.id} className="py-4 flex items-center justify-between hover:bg-gray-50 transition duration-150 rounded-md px-2 cursor-pointer">
+                        <li key={client.id} className="py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:bg-gray-50 transition duration-150 rounded-md px-2 cursor-pointer">
                             
-                            <div className="flex items-center space-x-3">
-                                <User className="w-6 h-6 text-mani-pink-500" />
+                            {/* Nome e Telefone (Empilha no Mobile) */}
+                            <div className="flex items-start space-x-3 mb-3 sm:mb-0 w-full sm:w-auto">
+                                <User className="w-6 h-6 text-mani-pink-500 flex-shrink-0 mt-1" />
                                 <div>
                                     <p className="text-md font-semibold text-gray-900">{client.name}</p>
                                     <p className="text-sm text-gray-600 flex items-center">
@@ -130,12 +120,20 @@ export default function ClientList({ manicureId }: ClientListProps) {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col items-end text-sm">
-                                <p className="text-gray-700 font-medium">Total de Agendamentos: {client.total_appointments}</p>
-                                <p className="text-gray-500 flex items-center">
-                                    <Calendar className="w-3 h-3 mr-1" />
-                                    Último Serviço: {client.last_service_date || 'N/A'}
-                                </p>
+                            {/* Histórico e Botão (Empilha no Mobile) */}
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 w-full sm:w-auto">
+                                <div className="text-sm space-y-1 sm:space-y-0 sm:space-x-4 sm:flex">
+                                    <p className="text-gray-700 font-medium">Agendamentos: {client.total_appointments}</p>
+                                    <p className="text-gray-500 flex items-center">
+                                        <Calendar className="w-3 h-3 mr-1" />
+                                        Último: {client.last_service_date || 'N/A'}
+                                    </p>
+                                </div>
+                                
+                                <button className="mt-3 sm:mt-0 flex items-center justify-center sm:justify-start text-sm font-medium text-mani-pink-600 hover:text-mani-pink-800 border border-mani-pink-200 sm:border-none p-2 rounded-lg">
+                                    Histórico Completo
+                                    <ArrowRight className="w-4 h-4 ml-2" />
+                                </button>
                             </div>
                         </li>
                     ))}

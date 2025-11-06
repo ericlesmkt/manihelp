@@ -3,10 +3,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-// CORREÇÃO: Adicionado Bell e outros ícones necessários para o Header
 import { supabase } from '../../lib/supabaseClient';
 import ClientList from '../../components/ClientList';
-import { Loader2, Users, AlertTriangle, Calendar, LogOut, ChevronDown, BarChart3, Settings, Bell } from 'lucide-react';
+import { Loader2, Users, Calendar, LogOut, ChevronDown, BarChart3, Settings, Bell } from 'lucide-react';
 
 // --- Tipos ---
 type ManicureProfile = {
@@ -78,9 +77,10 @@ export default function ClientsPage() {
             {/* Usamos o Header do dashboard aqui, garantindo o link de navegação */}
             <Header user={mockUser} /> 
 
-            <main className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+            {/* Ajuste de margem e padding para responsividade */}
+            <main className="max-w-7xl mx-auto py-6 sm:py-10 px-4 sm:px-6 lg:px-8">
                 
-                <div className="mb-8">
+                <div className="mb-6 sm:mb-8">
                     <h1 className="text-3xl font-bold text-gray-900 flex items-center">
                         <Users className="w-7 h-7 mr-3 text-mani-pink-600" />
                         Seus Clientes
@@ -91,7 +91,7 @@ export default function ClientsPage() {
                 </div>
 
                 {/* Componente de Lista e Busca */}
-                <div className="bg-white rounded-xl shadow-lg p-6">
+                <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
                     <ClientList manicureId={manicureProfile.id} />
                 </div>
             </main>
@@ -113,7 +113,6 @@ function Header({ user }: any) {
     };
 
     useEffect(() => {
-        // Busca o nome real para o Header
         async function loadProfileName() {
             const { data: { user: authUser } } = await supabase.auth.getUser();
             if (!authUser) return;
@@ -129,7 +128,6 @@ function Header({ user }: any) {
         loadProfileName();
     }, []);
     
-    // Função para determinar se o link está ativo (usando o objeto window/location)
     const isActive = (path: string) => typeof window !== 'undefined' && window.location.pathname === path;
 
 
@@ -145,7 +143,6 @@ function Header({ user }: any) {
                                 <Calendar className="inline-block w-5 h-5 mr-1" />
                                 Agenda
                             </a>
-                            {/* LINK CLIENTES: Ativado e estilizado se ativo */}
                             <a href="/clients" 
                                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/clients') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
                                 <Users className="inline-block w-5 h-5 mr-1" />
@@ -160,8 +157,7 @@ function Header({ user }: any) {
                     </div>
 
                     <div className="flex items-center space-x-4">
-                        {/* Menu de Notificação e Perfil */}
-                         <button className="text-gray-400 hover:text-gray-500 rounded-full p-1 relative">
+                        <button className="text-gray-400 hover:text-gray-500 rounded-full p-1 relative">
                             <Bell className="w-6 h-6" />
                             <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-mani-pink-500 ring-2 ring-white" />
                         </button>
