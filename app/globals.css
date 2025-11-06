@@ -1,0 +1,4 @@
+/* Estas são as diretivas que injetam os estilos do Tailwind no seu projeto */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
