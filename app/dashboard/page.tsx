@@ -1,7 +1,8 @@
-"use client"; // Obrigatório! Estamos usando useState para o dropdown.
+// Nome do arquivo: app/dashboard/page.tsx
+"use client";
 
-import React, { useState } from 'react';
-// Ícones: npm install lucide-react
+import React, { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   Calendar, 
   Users, 
@@ -12,69 +13,95 @@ import {
   ChevronDown, 
   LogOut, 
   Check,
-  Clock
+  Clock,
+  Loader2,
+  AlertTriangle,
+  User as UserIcon,
+  DollarSign,
+  CalendarCheck,
+  ClipboardCheck,
 } from 'lucide-react';
+import { supabase } from '../../lib/supabaseClient'; 
+import NewAppointmentModal from '../../components/NewAppointmentModal';
 
-// --- Tipos (Já que estamos usando TypeScript) ---
-type User = {
-  name: string;
-  avatarUrl: string;
-};
 
-type Appointment = {
-  id: number;
-  client: string;
-  service: string;
-  time: string;
-  status: 'confirmed' | 'pending';
+// --- Tipos de Dados (Baseados no seu esquema) ---
+// CORREÇÃO CRÍTICA: Os IDs de JOIN vêm como ARRAY de objetos
+type ProfileData = { id: string; name: string; phone_number: string };
+type ServiceData = { id: number; name: string; price: number };
+
+type AppointmentItem = {
+    id: number;
+    start_time: string; // TIMESTAMPTZ
+    end_time: string;
+    status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+    
+    // CORRIGIDO: Tipado como array, mesmo que só tenha um item
+    client_id: ProfileData[] | null; 
+    service_id: ServiceData[] | null; 
 };
 
 type SummaryStat = {
   label: string;
   value: string;
+  icon: React.ElementType;
 };
 
-// --- Dados Mockados ---
-const mockUser: User = {
-  name: "Dona Maria", // A mãe!
-  avatarUrl: "https://placehold.co/100x100/E9D5FF/4C1D95?text=M"
+// --- Dados Mockados (adaptados) ---
+const mockUser = {
+  name: "Dona Maria",
+  avatarUrl: "https://placehold.co/100x100/E62E7A/FFFFFF?text=M"
 };
 
-const mockAppointments: Appointment[] = [
-  { id: 1, client: "Ana Silva", service: "Mão e Pé", time: "10:30", status: "confirmed" },
-  { id: 2, client: "Beatriz Costa", service: "Pé (Acrigel)", time: "11:45", status: "confirmed" },
-  { id: 3, client: "Carla Dias", service: "Mão", time: "14:00", status: "pending" },
-  { id: 4, client: "Daniela Fernandes", service: "Spa dos Pés", time: "15:15", status: "confirmed" },
-];
 
-const mockSummary: SummaryStat[] = [
-  { label: "Clientes Hoje", value: "4" },
-  { label: "Receita Estimada", value: "R$ 280,00" },
-  { label: "Novos Clientes (Mês)", value: "12" },
-];
-// -----------------------
-
-
-/**
- * Componente: Header (Navegação Superior)
- */
-function Header({ user }: { user: User }) {
+// --- Componente: Header ---
+function Header({ user }: { user: { name: string, avatarUrl: string } }) {
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [manicureName, setManicureName] = useState(user.name);
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      router.replace('/'); 
+    }
+  };
+
+  useEffect(() => {
+    async function loadProfile() {
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      if (!authUser) return;
+      
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('name')
+        .eq('id', authUser.id)
+        .single();
+      
+      if (profile) {
+        setManicureName(profile.name);
+      }
+    }
+    loadProfile();
+  }, []);
+  
+  const isActive = (path: string) => typeof window !== 'undefined' && window.location.pathname === path;
+
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo e Navegação Principal */}
           <div className="flex items-center space-x-8">
-            {/* ATUALIZADO: Usando a nova cor 'mani-pink' */}
             <h1 className="text-2xl font-bold text-mani-pink-600">ManiHelp</h1>
             <nav className="hidden md:flex space-x-6">
-              <a href="#" className="font-medium text-mani-pink-600 border-b-2 border-mani-pink-600 px-1 py-2 text-sm">
+              <a href="/dashboard" 
+                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/dashboard') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
                 <Calendar className="inline-block w-5 h-5 mr-1" />
                 Agenda
               </a>
-              <a href="#" className="font-medium text-gray-500 hover:text-gray-700 px-1 py-2 text-sm">
+              <a href="/clients" 
+                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/clients') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
                 <Users className="inline-block w-5 h-5 mr-1" />
                 Clientes
               </a>
@@ -85,38 +112,34 @@ function Header({ user }: { user: User }) {
             </nav>
           </div>
 
-          {/* Menu do Usuário e Notificações */}
           <div className="flex items-center space-x-4">
             <button className="text-gray-400 hover:text-gray-500 rounded-full p-1 relative">
               <Bell className="w-6 h-6" />
-              {/* ATUALIZADO: Usando a nova cor 'mani-pink' */}
               <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-mani-pink-500 ring-2 ring-white" />
             </button>
 
-            {/* Dropdown do Usuário */}
             <div className="relative">
               <button onClick={() => setMenuOpen(!menuOpen)} className="flex items-center space-x-2 rounded-full p-1 pr-2 hover:bg-gray-100">
                 <img 
                   className="w-8 h-8 rounded-full object-cover" 
                   src={user.avatarUrl}
                   alt="Avatar do usuário" 
-                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src="https://placehold.co/100x100/E9D5FF/4C1D95?text=M"; }}
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src="https://placehold.co/100x100/E62E7A/FFFFFF?text=M"; }}
                 />
-                <span className="hidden sm:inline font-medium text-sm text-gray-700">{user.name}</span>
+                <span className="hidden sm:inline font-medium text-sm text-gray-700">{manicureName}</span>
                 <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${menuOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* Menu Dropdown */}
               {menuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-1 ring-1 ring-black ring-opacity-5 z-20">
                   <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     <Settings className="inline-block w-4 h-4 mr-2" />
                     Configurações
                   </a>
-                  <a href="#" className="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                  <button onClick={handleSignOut} className="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
                     <LogOut className="inline-block w-4 h-4 mr-2" />
                     Sair
-                  </a>
+                  </button>
                 </div>
               )}
             </div>
@@ -127,57 +150,90 @@ function Header({ user }: { user: User }) {
   );
 }
 
-/**
- * Componente: UpcomingAppointments (Lista de Próximos Agendamentos)
- */
-function UpcomingAppointments({ appointments }: { appointments: Appointment[] }) {
+
+// --- Componente: UpcomingAppointments (Agendamentos de Hoje) ---
+function UpcomingAppointments({ appointments, isLoading, error }: { appointments: AppointmentItem[], isLoading: boolean, error: string | null }) {
+  
+  // FUNÇÃO AUXILIAR PARA ACESSAR OS DADOS DO JOIN CORRETAMENTE
+  const getClientName = (appt: AppointmentItem) => appt.client_id ? appt.client_id[0]?.name : 'Cliente Desconhecido';
+  const getServiceName = (appt: AppointmentItem) => appt.service_id ? appt.service_id[0]?.name : 'Serviço Removido';
+
+  if (isLoading) {
+    return (
+      <div className="bg-white rounded-xl shadow-lg p-10 flex flex-col items-center justify-center">
+        <Loader2 className="w-8 h-8 text-mani-pink-600 animate-spin" />
+        <p className="mt-4 text-gray-600">Carregando agendamentos...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-xl shadow-lg" role="alert">
+        <p className="font-bold">Erro de Conexão</p>
+        <p>Não foi possível carregar os agendamentos. Detalhes: {error}</p>
+      </div>
+    );
+  }
+  
+  const todayAppointments = appointments.filter(appt => appt.status !== 'cancelled' && appt.status !== 'pending');
+
+  if (todayAppointments.length === 0) {
+    return (
+      <div className="bg-white rounded-xl shadow-lg p-10 text-center">
+        <CalendarCheck className="w-12 h-12 text-gray-400 mx-auto" />
+        <h3 className="mt-4 text-xl font-semibold text-gray-900">Nenhum Agendamento Hoje</h3>
+        <p className="mt-1 text-gray-500">Seu dia está livre, ou talvez você deva criar um novo agendamento!</p>
+      </div>
+    );
+  }
+  
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-      {/* Header do Card */}
       <div className="p-6 border-b border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-800">Próximos Agendamentos</h2>
-        <p className="text-sm text-gray-500 mt-1">Visão geral dos seus compromissos de hoje.</p>
+        <h2 className="text-xl font-semibold text-gray-800">Próximos Agendamentos de Hoje ({todayAppointments.length})</h2>
+        <p className="text-sm text-gray-500 mt-1">Compromissos confirmados para as próximas horas.</p>
       </div>
 
-      {/* Lista de Agendamentos */}
       <ul className="divide-y divide-gray-200">
-        {appointments.map((appt) => (
-          <li key={appt.id} className="p-6 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <div className="flex items-center space-x-4">
-              {/* ATUALIZADO: Usando a nova cor 'mani-pink' */}
-              <div className="flex-shrink-0 w-12 h-12 bg-mani-pink-100 text-mani-pink-600 rounded-full flex items-center justify-center font-bold text-lg">
-                {appt.time.split(':')[0]}h
-              </div>
-              <div>
-                <p className="text-md font-semibold text-gray-900">{appt.client}</p>
-                <p className="text-sm text-gray-600">{appt.service}</p>
-              </div>
-            </div>
+        {todayAppointments.map((appt) => {
+            const time = new Date(appt.start_time).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            const isConfirmed = appt.status === 'confirmed' || appt.status === 'completed';
             
-            <div className="flex items-center space-x-3">
-              {appt.status === 'confirmed' ? (
-                <span className="flex items-center text-xs font-medium text-green-600 bg-green-100 px-3 py-1 rounded-full">
-                  <Check className="w-3 h-3 mr-1" />
-                  Confirmado
-                </span>
-              ) : (
-                <span className="flex items-center text-xs font-medium text-yellow-600 bg-yellow-100 px-3 py-1 rounded-full">
-                  <Clock className="w-3 h-3 mr-1" />
-                  Pendente
-                </span>
-              )}
-               {/* ATUALIZADO: Usando a nova cor 'mani-pink' */}
-               <button className="text-sm font-medium text-mani-pink-600 hover:text-mani-pink-800">
-                Detalhes
-               </button>
-            </div>
-          </li>
-        ))}
+            return (
+            <li key={appt.id} className="p-6 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                <div className="flex items-center space-x-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-mani-pink-100 text-mani-pink-600 rounded-full flex items-center justify-center font-bold text-lg">
+                    {time.split(':')[0]}h
+                </div>
+                <div>
+                    {/* ACESSO CORRIGIDO */}
+                    <p className="text-md font-semibold text-gray-900">{getClientName(appt)}</p>
+                    <p className="text-sm text-gray-600">{getServiceName(appt)}</p>
+                </div>
+                </div>
+                
+                <div className="flex items-center space-x-3">
+                {isConfirmed ? (
+                    <span className="flex items-center text-xs font-medium text-green-600 bg-green-100 px-3 py-1 rounded-full">
+                    <Check className="w-3 h-3 mr-1" />
+                    Confirmado
+                    </span>
+                ) : (
+                    <span className="flex items-center text-xs font-medium text-yellow-600 bg-yellow-100 px-3 py-1 rounded-full">
+                    <Clock className="w-3 h-3 mr-1" />
+                    Pendente
+                    </span>
+                )}
+                <button className="text-sm font-medium text-mani-pink-600 hover:text-mani-pink-800">
+                    Detalhes
+                </button>
+                </div>
+            </li>
+        )})}
       </ul>
 
-      {/* Footer do Card */}
       <div className="p-6 bg-gray-50 text-center">
-         {/* ATUALIZADO: Usando a nova cor 'mani-pink' */}
          <a href="#" className="text-sm font-medium text-mani-pink-600 hover:text-mani-pink-800">
             Ver agenda completa
           </a>
@@ -186,71 +242,331 @@ function UpcomingAppointments({ appointments }: { appointments: Appointment[] })
   );
 }
 
-/**
- * Componente: SummaryCard (Cards de Resumo Rápido)
- */
+
+// --- Componente: PendingAppointmentsCard (Novo) ---
+function PendingAppointmentsCard({ appointments, onConfirm, isConfirming }: { appointments: AppointmentItem[], onConfirm: (id: number) => void, isConfirming: number | null }) {
+    
+    // FUNÇÃO AUXILIAR PARA ACESSAR OS DADOS DO JOIN CORRETAMENTE
+    const getClientName = (appt: AppointmentItem) => appt.client_id ? appt.client_id[0]?.name : 'Cliente Desconhecido';
+    const getServiceName = (appt: AppointmentItem) => appt.service_id ? appt.service_id[0]?.name : 'Serviço Removido';
+
+    // Filtra agendamentos PENDENTES E FUTUROS
+    const pendingAppointments = appointments.filter(appt => {
+        const isFuture = new Date(appt.start_time) > new Date();
+        return appt.status === 'pending' && isFuture;
+    });
+
+    if (pendingAppointments.length === 0) {
+        return null;
+    }
+    
+    return (
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden mt-8">
+            <div className="p-6 border-b border-yellow-200 bg-yellow-50">
+                <h2 className="text-xl font-semibold text-gray-800 flex items-center">
+                    <AlertTriangle className="w-6 h-6 mr-2 text-yellow-600" />
+                    Aprovar Agendamentos ({pendingAppointments.length})
+                </h2>
+                <p className="text-sm text-gray-600 mt-1">Requisições de serviço pendentes de sua confirmação.</p>
+            </div>
+            
+            <ul className="divide-y divide-gray-200">
+                {pendingAppointments.map((appt) => {
+                    const time = new Date(appt.start_time).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    const date = new Date(appt.start_time).toLocaleDateString('pt-BR');
+                    const isBusy = isConfirming === appt.id;
+
+                    return (
+                        <li key={appt.id} className="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between hover:bg-yellow-50 transition-colors">
+                            
+                            {/* Informações */}
+                            <div className="flex-1 space-y-1 sm:space-y-0 sm:flex sm:items-center sm:space-x-4">
+                                <div className="text-sm font-semibold text-gray-900">
+                                    {date} às {time}
+                                </div>
+                                <div>
+                                    {/* ACESSO CORRIGIDO */}
+                                    <p className="text-md font-semibold text-gray-900">{getClientName(appt)}</p>
+                                    <p className="text-sm text-gray-600">{getServiceName(appt)}</p>
+                                </div>
+                            </div>
+                            
+                            {/* Ações */}
+                            <div className="mt-3 sm:mt-0 flex items-center space-x-3">
+                                <button 
+                                    onClick={() => onConfirm(appt.id)}
+                                    disabled={isBusy}
+                                    className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg shadow-md hover:bg-green-700 transition flex items-center justify-center disabled:opacity-50"
+                                >
+                                    {isBusy ? (
+                                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                    ) : (
+                                        <>
+                                            <ClipboardCheck className="w-4 h-4 mr-2" />
+                                            Confirmar
+                                        </>
+                                    )}
+                                </button>
+                                {/* Futuramente: Botão de Rejeitar/Detalhes */}
+                            </div>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
+    );
+}
+
+// --- Componente: SummaryCard ---
 function SummaryCard({ stats }: { stats: SummaryStat[] }) {
+  const statIcons: { [key: string]: React.ElementType } = {
+    'Clientes Hoje': Users,
+    'Receita Estimada': DollarSign,
+    'Novos Clientes (Mês)': UserIcon,
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-lg p-6">
       <h3 className="text-lg font-semibold text-gray-800 mb-4">Resumo do Dia</h3>
       <div className="space-y-4">
-        {stats.map((stat) => (
-          <div key={stat.label} className="flex justify-between items-baseline">
-            <p className="text-sm font-medium text-gray-600">{stat.label}</p>
-            <p className="text-xl font-bold text-gray-900">{stat.value}</p>
-          </div>
-        ))}
+        {stats.map((stat) => {
+          const Icon = statIcons[stat.label] || AlertTriangle;
+          return (
+            <div key={stat.label} className="flex justify-between items-center border-b border-gray-100 pb-2 last:border-b-0 last:pb-0">
+              <div className="flex items-center">
+                <Icon className="w-4 h-4 mr-2 text-mani-pink-500" />
+                <p className="text-sm font-medium text-gray-600">{stat.label}</p>
+              </div>
+              <p className="text-xl font-bold text-gray-900">{stat.value}</p>
+            </div>
+          )
+        })}
       </div>
     </div>
   );
 }
 
-/**
- * Componente: DashboardPage (O Layout Principal)
- */
+
+// --- Componente Principal: DashboardPage ---
 export default function DashboardPage() {
+  const router = useRouter(); 
+  const [allAppointments, setAllAppointments] = useState<AppointmentItem[]>([]); 
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [manicureId, setManicureId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirming, setIsConfirming] = useState<number | null>(null); 
+
+  // Função para confirmar um agendamento
+  const handleConfirm = async (id: number) => {
+    setIsConfirming(id);
+    try {
+        const { error: updateError } = await supabase
+            .from('appointments')
+            .update({ status: 'confirmed' })
+            .eq('id', id);
+
+        if (updateError) {
+            throw new Error(updateError.message);
+        }
+
+        // Forçamos a busca manual.
+        fetchAppointments(); 
+
+    } catch (e: any) {
+        console.error("Erro ao confirmar agendamento:", e);
+        // Implementar um modal de erro no futuro
+        alert(`Falha ao confirmar. Detalhes: ${e.message}`);
+    } finally {
+        setIsConfirming(null);
+    }
+  };
+
+
+  // Filtra agendamentos que são HOJE
+  const isToday = (dateString: string) => {
+    const today = new Date();
+    const date = new Date(dateString);
+    return date.toDateString() === today.toDateString();
+  };
+  
+  // Função que busca TODOS os agendamentos (Hoje + Pendentes + Futuros)
+  const fetchAppointments = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    if (!manicureId) return; 
+
+    try {
+      // Busca agendamentos a partir de hoje (maior que ontem)
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      
+      const { data, error } = await supabase
+        .from('appointments')
+        .select(`
+          id, start_time, end_time, status,
+          client_id (id, name, phone_number),
+          service_id (id, name, price)
+        `)
+        .eq('manicure_id', manicureId)
+        .gte('start_time', yesterday.toISOString()) // Traz a partir de ontem
+        .order('start_time', { ascending: true }); 
+
+      if (error) {
+        throw new Error(error.message);
+      }
+      
+      // CORREÇÃO: Converte o array retornado para o tipo correto (sem o erro)
+      setAllAppointments(data as AppointmentItem[]);
+
+    } catch (e: any) {
+      console.error('Erro ao buscar agendamentos:', e);
+      setError(`Falha ao buscar dados: ${e.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [manicureId]);
+
+
+  // 1. CARREGAMENTO E AUTORIZAÇÃO
+  useEffect(() => {
+    async function checkAuthAndRole() {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        router.replace('/'); 
+        return;
+      }
+      
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+      
+      if (error || profile?.role !== 'manicure') {
+        await supabase.auth.signOut();
+        router.replace('/');
+        return;
+      }
+
+      setManicureId(user.id);
+    }
+    checkAuthAndRole();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') {
+        router.replace('/');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [router]);
+
+
+  // 2. Buscar Agendamentos quando o ID da Manicure estiver pronto
+  useEffect(() => {
+    if (manicureId) {
+      fetchAppointments();
+      // Polling de 10s para atualizar caso o Realtime falhe
+      const interval = setInterval(fetchAppointments, 10000); 
+      return () => clearInterval(interval);
+    }
+  }, [manicureId, fetchAppointments]); 
+
+  
+  // 3. Divisão dos Agendamentos
+  const todayAppointments = allAppointments.filter(appt => isToday(appt.start_time));
+  const pendingAppointments = allAppointments.filter(appt => appt.status === 'pending');
+  
+
+  // 4. Calcular Estatísticas do Resumo do Dia
+  const todayRevenue = todayAppointments.reduce((sum, appt) => {
+    if (appt.status === 'completed' || appt.status === 'confirmed') {
+      const price = appt.service_id && appt.service_id[0]?.price ? parseFloat(String(appt.service_id[0].price)) : 0;
+      return sum + price;
+    }
+    return sum;
+  }, 0);
+
+  const summaryStats: SummaryStat[] = [
+    { label: "Agendamentos Hoje", value: todayAppointments.length.toString(), icon: Calendar },
+    { label: "Requisições Pendentes", value: pendingAppointments.length.toString(), icon: AlertTriangle },
+    { label: "Receita Estimada (Hoje)", value: `R$ ${todayRevenue.toFixed(2)}`, icon: DollarSign },
+  ];
+  
+  // Função para re-fetch quando um novo agendamento for criado
+  const handleAppointmentCreated = () => {
+    setIsModalOpen(false); 
+    fetchAppointments(); 
+  };
+  
+  // Exibir loader enquanto o estado de auth e role não é definido
+  if (!manicureId && !error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <Loader2 className="w-8 h-8 text-mani-pink-600 animate-spin" />
+        <p className="ml-3 text-gray-600">Verificando autenticação...</p>
+      </div>
+    );
+  }
+
+
   return (
-    /* * ATUALIZADO: 
-     * Usando 'font-inter' que agora é o nosso 'font-sans' padrão
-     * definido no tailwind.config
-    */
     <div className="min-h-screen bg-gray-100 font-inter">
-      {/* Header Fixo */}
       <Header user={mockUser} />
 
-      {/* Conteúdo Principal da Página */}
       <main className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        {/* Cabeçalho de Boas-Vindas e Ação Rápida */}
+        
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
-              Bem-vinda de volta, {mockUser.name}!
+              Bem-vinda de volta, Dona Maria!
             </h1>
             <p className="text-lg text-gray-600 mt-1">
-              Você tem {mockAppointments.length} agendamentos hoje.
+              Você tem {todayAppointments.length} agendamentos confirmados para hoje.
             </p>
           </div>
-          {/* ATUALIZADO: Usando a nova cor 'mani-pink' */}
-          <button className="mt-4 md:mt-0 flex items-center justify-center bg-mani-pink-600 text-white px-5 py-3 rounded-lg shadow-md hover:bg-mani-pink-700 transition-all duration-300 transform hover:scale-105">
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="mt-4 md:mt-0 flex items-center justify-center bg-mani-pink-600 text-white px-5 py-3 rounded-lg shadow-md hover:bg-mani-pink-700 transition-all duration-300 transform hover:scale-105"
+          >
             <Plus className="w-5 h-5 mr-2" />
             Novo Agendamento
           </button>
         </div>
 
-        {/* Grid Principal (Agenda e Resumo) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
-          {/* Coluna Principal (Agenda) */}
-          <div className="lg:col-span-2">
-            <UpcomingAppointments appointments={mockAppointments} />
+          <div className="lg:col-span-2 space-y-8">
+            
+            {/* CARD 1: AGENDAMENTOS DE HOJE */}
+            <UpcomingAppointments appointments={todayAppointments} isLoading={isLoading} error={error} />
+            
+            {/* CARD 2: AGENDAMENTOS PENDENTES (NOVO) */}
+            <PendingAppointmentsCard 
+                appointments={allAppointments} 
+                onConfirm={handleConfirm} 
+                isConfirming={isConfirming} 
+            />
+
           </div>
 
-          {/* Coluna Lateral (Resumo) */}
           <div className="lg:col-span-1 space-y-8">
-            <SummaryCard stats={mockSummary} />
+            <SummaryCard stats={summaryStats} />
           </div>
         </div>
       </main>
+      
+      {/* Modal de Novo Agendamento */}
+      {manicureId && (
+        <NewAppointmentModal 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+          manicureId={manicureId}
+          onAppointmentCreated={handleAppointmentCreated}
+        />
+      )}
     </div>
   );
 }

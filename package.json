@@ -8,27 +8,28 @@
     "start": "next start",
     "lint": "next lint"
   },
-  
   "postcss": {
     "plugins": {
       "tailwindcss": {},
       "autoprefixer": {}
     }
   },
-
   "dependencies": {
+    "@supabase/supabase-js": "^2.39.3",
+    "autoprefixer": "^10.4.16",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.303.0",
     "next": "16.0.1",
     "react": "^18",
+    "react-datepicker": "^8.8.0",
     "react-dom": "^18",
-    "lucide-react": "^0.303.0",
-    "autoprefixer": "^10.4.16",
     "tailwindcss": "^3.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "eslint": "^8",
+    "eslint": "^9.0.0",
     "eslint-config-next": "16.0.1",
     "typescript": "^5"
   }

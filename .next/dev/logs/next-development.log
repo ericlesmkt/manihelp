@@ -1,2 +1,29 @@
-[00:00:01.682] Server  LOG      ✓ Ready in 1472ms
-[00:00:13.551] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:00.731] Server  LOG      ✓ Ready in 496ms
+[00:00:04.569] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:09.641] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:33.967] Server  LOG      ✓ Compiled in 231ms
+[00:00:38.384] Server  LOG      ✓ Compiled in 123ms
+[00:03:25.244] Server  LOG      ✓ Compiled in 55ms
+[00:03:44.983] Server  LOG      ✓ Compiled in 36ms
+[00:05:43.448] Server  LOG      ✓ Compiled in 76ms
+[00:05:48.108] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:51.004] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:51.593] Browser ERROR   uncaughtError: ReferenceError: Calendar is not defined
+[00:06:48.106] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:06:48.109] Server  LOG      ✓ Compiled in 106ms
+[00:06:48.410] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:49.779] Browser ERROR   uncaughtError: ReferenceError: Bell is not defined
+[00:06:52.726] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:53.225] Browser ERROR   uncaughtError: ReferenceError: Bell is not defined
+[00:06:54.767] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:56.493] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:56.982] Browser ERROR   uncaughtError: ReferenceError: Bell is not defined
+[00:07:55.810] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:07:55.827] Server  LOG      ✓ Compiled in 104ms
+[00:07:56.175] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:02.592] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:05.063] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:14.442] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:16.907] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:18.674] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:24.797] Browser ERROR   Erro de autenticação: {}
