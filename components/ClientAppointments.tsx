@@ -5,16 +5,14 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Clock, Check, XCircle, Calendar, Loader2, AlertTriangle } from 'lucide-react';
 
-// CORREÇÃO: Tipo ServiceData agora reflete o que o Supabase retorna no JOIN
+// --- Tipos de Agendamento (Visão do Cliente) ---
 type ServiceData = { id: number; name: string; price: number };
 
-// --- Tipos de Agendamento (Visão do Cliente) ---
 type ClientAppointmentItem = {
     id: number;
     start_time: string;
     end_time: string;
     status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
-    // CORREÇÃO CRÍTICA: Tipado como ARRAY, mesmo que contenha apenas um item
     service_id: ServiceData[] | null; 
 };
 
@@ -40,7 +38,8 @@ export default function ClientAppointments({ clientId }: ClientAppointmentsProps
     const getServiceName = (appt: ClientAppointmentItem) => appt.service_id && appt.service_id[0]?.name ? appt.service_id[0].name : 'Serviço não encontrado';
     const getServicePrice = (appt: ClientAppointmentItem) => appt.service_id && appt.service_id[0]?.price ? `R$ ${parseFloat(String(appt.service_id[0].price)).toFixed(2)}` : 'N/A';
 
-    // Função que busca os dados e ordena
+
+    // Função que busca os dados e ordena (usada no fetch inicial e no Realtime)
     const fetchAndSortAppointments = useCallback(async () => {
         setIsLoading(true);
         setError(null);
@@ -58,9 +57,7 @@ export default function ClientAppointments({ clientId }: ClientAppointmentsProps
                 throw new Error(error.message);
             }
             
-            // CORREÇÃO FINAL: Converte o array retornado para o tipo correto (array de AppointmentItem)
             setAppointments(data as ClientAppointmentItem[]);
-
         } catch (e: any) {
             console.error('Erro ao buscar agendamentos:', e);
             setError(`Falha ao buscar agendamentos. Detalhe: ${e.message}`);
@@ -86,8 +83,8 @@ export default function ClientAppointments({ clientId }: ClientAppointmentsProps
                 throw new Error(updateError.message);
             }
             
-            // Força a atualização da lista
-            fetchAndSortAppointments(); 
+            // O Realtime (useEffect abaixo) deve pegar a mudança e atualizar a lista
+            // Se o Realtime estiver ativo, a atualização é automática.
 
         } catch (e: any) {
             console.error('Erro ao cancelar agendamento:', e);
@@ -98,11 +95,29 @@ export default function ClientAppointments({ clientId }: ClientAppointmentsProps
     };
 
 
-    // Efeito de Polling (Busca a cada 10s para garantir a atualização)
+    // Efeito para configurar a escuta em tempo real (Realtime)
+    // REMOVEMOS O POLLING CHATO E VOLTAMOS AO REALTIME
     useEffect(() => {
+        // Busca inicial
         fetchAndSortAppointments();
-        const interval = setInterval(fetchAndSortAppointments, 10000); 
-        return () => clearInterval(interval);
+
+        // Escuta em tempo real por INSERÇÕES, ATUALIZAÇÕES e EXCLUSÕES
+        const subscription = supabase
+            .channel(`client_appointments_${clientId}`) 
+            .on(
+                'postgres_changes',
+                { event: '*', schema: 'public', table: 'appointments', filter: `client_id=eq.${clientId}` },
+                () => {
+                    // Re-busca os dados quando algo muda no banco
+                    fetchAndSortAppointments();
+                }
+            )
+            .subscribe();
+
+        // Limpa a subscrição quando o componente é desmontado ou clientId muda
+        return () => {
+            supabase.removeChannel(subscription);
+        };
     }, [clientId, fetchAndSortAppointments]);
 
 

@@ -5,99 +5,14 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../lib/supabaseClient';
 import ClientList from '../../components/ClientList';
-import { Loader2, Users, Calendar, LogOut, ChevronDown, BarChart3, Settings, Bell } from 'lucide-react';
+// Adicionado Clock e Lock para navegação completa
+import { Loader2, Users, Calendar, LogOut, ChevronDown, BarChart3, Settings, Bell, Clock, Lock } from 'lucide-react';
 
 // --- Tipos ---
 type ManicureProfile = {
     id: string;
     name: string;
 };
-
-// --- Componente Principal ---
-export default function ClientsPage() {
-    const router = useRouter();
-    const [manicureProfile, setManicureProfile] = useState<ManicureProfile | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    
-    // Simula o mockUser do Dashboard (usado para o Header)
-    const mockUser = {
-        name: "Dona Maria",
-        avatarUrl: "https://placehold.co/100x100/E62E7A/FFFFFF?text=M"
-    };
-
-    // 1. CARREGAMENTO E AUTORIZAÇÃO
-    useEffect(() => {
-        async function checkAuthAndRole() {
-            const { data: { user } } = await supabase.auth.getUser();
-            
-            if (!user) {
-                router.replace('/'); 
-                return;
-            }
-            
-            // Verifica o perfil e a role
-            const { data: profile, error } = await supabase
-                .from('profiles')
-                .select('id, name, role')
-                .eq('id', user.id)
-                .single();
-            
-            if (error || profile?.role !== 'manicure') {
-                await supabase.auth.signOut();
-                router.replace('/');
-                return;
-            }
-
-            setManicureProfile({ id: profile.id, name: profile.name });
-            setIsLoading(false);
-        }
-        checkAuthAndRole();
-
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-            if (event === 'SIGNED_OUT') {
-                router.replace('/');
-            }
-        });
-
-        return () => subscription.unsubscribe();
-    }, [router]);
-
-    if (isLoading || !manicureProfile) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-100">
-                <Loader2 className="w-8 h-8 text-mani-pink-600 animate-spin" />
-                <p className="ml-3 text-gray-600">Carregando perfil...</p>
-            </div>
-        );
-    }
-
-    return (
-        <div className="min-h-screen bg-gray-100 font-inter">
-            {/* Usamos o Header do dashboard aqui, garantindo o link de navegação */}
-            <Header user={mockUser} /> 
-
-            {/* Ajuste de margem e padding para responsividade */}
-            <main className="max-w-7xl mx-auto py-6 sm:py-10 px-4 sm:px-6 lg:px-8">
-                
-                <div className="mb-6 sm:mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-                        <Users className="w-7 h-7 mr-3 text-mani-pink-600" />
-                        Seus Clientes
-                    </h1>
-                    <p className="text-lg text-gray-600 mt-1">
-                        Gerencie a base de clientes do ManiHelp.
-                    </p>
-                </div>
-
-                {/* Componente de Lista e Busca */}
-                <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-                    <ClientList manicureId={manicureProfile.id} />
-                </div>
-            </main>
-        </div>
-    );
-}
 
 // Reutiliza o componente Header do Dashboard para manter a navegação
 function Header({ user }: any) {
@@ -128,6 +43,7 @@ function Header({ user }: any) {
         loadProfileName();
     }, []);
     
+    // CORREÇÃO: Função para determinar se o link está ativo
     const isActive = (path: string) => typeof window !== 'undefined' && window.location.pathname === path;
 
 
@@ -148,9 +64,19 @@ function Header({ user }: any) {
                                 <Users className="inline-block w-5 h-5 mr-1" />
                                 Clientes
                             </a>
-                            <a href="/reports" 
-                                className={`font-medium px-1 py-2 text-sm transition ${isActive('/reports') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
+                            {/* NOVO LINK DE HORÁRIOS */}
+                             <a href="/schedules" 
+                                className={`font-medium px-1 py-2 text-sm transition ${isActive('/schedules') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
+                                <Clock className="inline-block w-5 h-5 mr-1" />
+                                Horários
+                            </a>
+                             {/* LINK DE RELATÓRIOS (BLOQUEADO) */}
+                            <a href="#" 
+                                className={`font-medium px-1 py-2 text-sm transition text-gray-400 cursor-not-allowed`}
+                                title="Recurso em desenvolvimento"
+                            >
                                 <BarChart3 className="inline-block w-5 h-5 mr-1" />
+                                <Lock className="inline-block w-4 h-4 mr-1" /> 
                                 Relatórios
                             </a>
                         </nav>
@@ -184,5 +110,87 @@ function Header({ user }: any) {
                 </div>
             </div>
         </header>
+    );
+}
+
+
+// --- Componente Principal ---
+export default function ClientsPage() {
+    const router = useRouter();
+    const [manicureProfile, setManicureProfile] = useState<ManicureProfile | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    
+    // Simula o mockUser do Dashboard (usado para o Header)
+    const mockUser = {
+        name: "Dona Maria",
+        avatarUrl: "https://placehold.co/100x100/E62E7A/FFFFFF?text=M"
+    };
+
+    // 1. CARREGAMENTO E AUTORIZAÇÃO (Mantido do código anterior)
+    useEffect(() => {
+        async function checkAuthAndRole() {
+            const { data: { user } } = await supabase.auth.getUser();
+            
+            if (!user) {
+                router.replace('/'); 
+                return;
+            }
+            
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('id, name, role')
+                .eq('id', user.id)
+                .single();
+            
+            if (profile?.role !== 'manicure') {
+                await supabase.auth.signOut();
+                router.replace('/');
+                return;
+            }
+
+            setManicureProfile({ id: profile.id, name: profile.name });
+            setIsLoading(false);
+        }
+        checkAuthAndRole();
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+            if (event === 'SIGNED_OUT') {
+                router.replace('/');
+            }
+        });
+
+        return () => subscription.unsubscribe();
+    }, [router]);
+
+    if (isLoading || !manicureProfile) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-100">
+                <Loader2 className="w-8 h-8 text-mani-pink-600 animate-spin" />
+                <p className="ml-3 text-gray-600">Carregando perfil...</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="min-h-screen bg-gray-100 font-inter">
+            <Header user={mockUser} /> 
+
+            <main className="max-w-7xl mx-auto py-6 sm:py-10 px-4 sm:px-6 lg:px-8">
+                
+                <div className="mb-6 sm:mb-8">
+                    <h1 className="text-3xl font-bold text-gray-900 flex items-center">
+                        <Users className="w-7 h-7 mr-3 text-mani-pink-600" />
+                        Seus Clientes
+                    </h1>
+                    <p className="text-lg text-gray-600 mt-1">
+                        Gerencie a base de clientes do ManiHelp.
+                    </p>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+                    <ClientList manicureId={manicureProfile.id} />
+                </div>
+            </main>
+        </div>
     );
 }

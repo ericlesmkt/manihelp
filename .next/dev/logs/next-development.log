@@ -1,3 +1,20 @@
-[00:00:00.583] Server  LOG      ✓ Ready in 359ms
-[00:00:06.540] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:12.331] Browser ERROR   Erro de autenticação: {}
+[00:00:00.854] Server  LOG      ✓ Ready in 589ms
+[00:00:49.782] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:59.625] Browser ERROR   Erro de autenticação: {}
+[00:01:04.701] Browser ERROR   Erro de autenticação: {}
+[00:04:57.021] Server  LOG      ✓ Compiled in 73ms
+[00:05:19.931] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:15.297] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:13:53.434] Server  LOG      ✓ Compiled in 173ms
+[00:14:07.869] Server  LOG      ✓ Compiled in 186ms
+[00:14:46.632] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:52.438] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:56.037] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:56.906] Browser ERROR   uncaughtError: ReferenceError: Users is not defined
+[00:16:03.778] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:16:03.786] Server  LOG      ✓ Compiled in 123ms
+[00:16:04.123] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:04.061] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:07.683] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:09.951] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:19.494] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

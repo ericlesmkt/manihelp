@@ -75,7 +75,7 @@ function ClientAppointments({ clientId }) {
     // Função auxiliar para acessar o nome e o preço do serviço corretamente
     const getServiceName = (appt)=>appt.service_id && appt.service_id[0]?.name ? appt.service_id[0].name : 'Serviço não encontrado';
     const getServicePrice = (appt)=>appt.service_id && appt.service_id[0]?.price ? `R$ ${parseFloat(String(appt.service_id[0].price)).toFixed(2)}` : 'N/A';
-    // Função que busca os dados e ordena
+    // Função que busca os dados e ordena (usada no fetch inicial e no Realtime)
     const fetchAndSortAppointments = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "ClientAppointments.useCallback[fetchAndSortAppointments]": async ()=>{
             setIsLoading(true);
@@ -90,7 +90,6 @@ function ClientAppointments({ clientId }) {
                 if (error) {
                     throw new Error(error.message);
                 }
-                // CORREÇÃO FINAL: Converte o array retornado para o tipo correto (array de AppointmentItem)
                 setAppointments(data);
             } catch (e) {
                 console.error('Erro ao buscar agendamentos:', e);
@@ -114,8 +113,8 @@ function ClientAppointments({ clientId }) {
             if (updateError) {
                 throw new Error(updateError.message);
             }
-            // Força a atualização da lista
-            fetchAndSortAppointments();
+        // O Realtime (useEffect abaixo) deve pegar a mudança e atualizar a lista
+        // Se o Realtime estiver ativo, a atualização é automática.
         } catch (e) {
             console.error('Erro ao cancelar agendamento:', e);
             setError(`Falha ao cancelar o agendamento. Tente novamente. Detalhe: ${e.message}`);
@@ -123,13 +122,29 @@ function ClientAppointments({ clientId }) {
             setIsCancelling(null);
         }
     };
-    // Efeito de Polling (Busca a cada 10s para garantir a atualização)
+    // Efeito para configurar a escuta em tempo real (Realtime)
+    // REMOVEMOS O POLLING CHATO E VOLTAMOS AO REALTIME
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "ClientAppointments.useEffect": ()=>{
+            // Busca inicial
             fetchAndSortAppointments();
-            const interval = setInterval(fetchAndSortAppointments, 10000);
+            // Escuta em tempo real por INSERÇÕES, ATUALIZAÇÕES e EXCLUSÕES
+            const subscription = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$supabaseClient$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].channel(`client_appointments_${clientId}`).on('postgres_changes', {
+                event: '*',
+                schema: 'public',
+                table: 'appointments',
+                filter: `client_id=eq.${clientId}`
+            }, {
+                "ClientAppointments.useEffect.subscription": ()=>{
+                    // Re-busca os dados quando algo muda no banco
+                    fetchAndSortAppointments();
+                }
+            }["ClientAppointments.useEffect.subscription"]).subscribe();
+            // Limpa a subscrição quando o componente é desmontado ou clientId muda
             return ({
-                "ClientAppointments.useEffect": ()=>clearInterval(interval)
+                "ClientAppointments.useEffect": ()=>{
+                    __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$supabaseClient$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].removeChannel(subscription);
+                }
             })["ClientAppointments.useEffect"];
         }
     }["ClientAppointments.useEffect"], [
@@ -144,7 +159,7 @@ function ClientAppointments({ clientId }) {
                     className: "w-6 h-6 text-mani-pink-600 animate-spin"
                 }, void 0, false, {
                     fileName: "[project]/components/ClientAppointments.tsx",
-                    lineNumber: 112,
+                    lineNumber: 127,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -152,13 +167,13 @@ function ClientAppointments({ clientId }) {
                     children: "Buscando seus agendamentos..."
                 }, void 0, false, {
                     fileName: "[project]/components/ClientAppointments.tsx",
-                    lineNumber: 113,
+                    lineNumber: 128,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/ClientAppointments.tsx",
-            lineNumber: 111,
+            lineNumber: 126,
             columnNumber: 13
         }, this);
     }
@@ -172,20 +187,20 @@ function ClientAppointments({ clientId }) {
                     children: "Erro de Dados"
                 }, void 0, false, {
                     fileName: "[project]/components/ClientAppointments.tsx",
-                    lineNumber: 121,
+                    lineNumber: 136,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                     children: error
                 }, void 0, false, {
                     fileName: "[project]/components/ClientAppointments.tsx",
-                    lineNumber: 122,
+                    lineNumber: 137,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/ClientAppointments.tsx",
-            lineNumber: 120,
+            lineNumber: 135,
             columnNumber: 13
         }, this);
     }
@@ -197,7 +212,7 @@ function ClientAppointments({ clientId }) {
                     className: "w-10 h-10 text-gray-400 mx-auto"
                 }, void 0, false, {
                     fileName: "[project]/components/ClientAppointments.tsx",
-                    lineNumber: 130,
+                    lineNumber: 145,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -205,7 +220,7 @@ function ClientAppointments({ clientId }) {
                     children: "Você não tem agendamentos"
                 }, void 0, false, {
                     fileName: "[project]/components/ClientAppointments.tsx",
-                    lineNumber: 131,
+                    lineNumber: 146,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -213,13 +228,13 @@ function ClientAppointments({ clientId }) {
                     children: 'Clique em "Agendar Novo Serviço" para começar.'
                 }, void 0, false, {
                     fileName: "[project]/components/ClientAppointments.tsx",
-                    lineNumber: 132,
+                    lineNumber: 147,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/components/ClientAppointments.tsx",
-            lineNumber: 129,
+            lineNumber: 144,
             columnNumber: 13
         }, this);
     }
@@ -231,7 +246,7 @@ function ClientAppointments({ clientId }) {
                 children: "Seus Compromissos"
             }, void 0, false, {
                 fileName: "[project]/components/ClientAppointments.tsx",
-                lineNumber: 139,
+                lineNumber: 154,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -263,7 +278,7 @@ function ClientAppointments({ clientId }) {
                                                 className: "w-4 h-4 mr-2 text-mani-pink-500"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/ClientAppointments.tsx",
-                                                lineNumber: 157,
+                                                lineNumber: 172,
                                                 columnNumber: 37
                                             }, this),
                                             dateStr,
@@ -272,7 +287,7 @@ function ClientAppointments({ clientId }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/ClientAppointments.tsx",
-                                        lineNumber: 156,
+                                        lineNumber: 171,
                                         columnNumber: 33
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -289,19 +304,19 @@ function ClientAppointments({ clientId }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/components/ClientAppointments.tsx",
-                                                lineNumber: 161,
+                                                lineNumber: 176,
                                                 columnNumber: 46
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/ClientAppointments.tsx",
-                                        lineNumber: 160,
+                                        lineNumber: 175,
                                         columnNumber: 33
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/ClientAppointments.tsx",
-                                lineNumber: 155,
+                                lineNumber: 170,
                                 columnNumber: 29
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -314,14 +329,14 @@ function ClientAppointments({ clientId }) {
                                                 className: "w-3 h-3 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/components/ClientAppointments.tsx",
-                                                lineNumber: 169,
+                                                lineNumber: 184,
                                                 columnNumber: 37
                                             }, this),
                                             Status.label
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/components/ClientAppointments.tsx",
-                                        lineNumber: 168,
+                                        lineNumber: 183,
                                         columnNumber: 33
                                     }, this),
                                     isActionable && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -334,7 +349,7 @@ function ClientAppointments({ clientId }) {
                                                     className: "w-4 h-4 mr-1 animate-spin"
                                                 }, void 0, false, {
                                                     fileName: "[project]/components/ClientAppointments.tsx",
-                                                    lineNumber: 182,
+                                                    lineNumber: 197,
                                                     columnNumber: 49
                                                 }, this),
                                                 "..."
@@ -342,25 +357,25 @@ function ClientAppointments({ clientId }) {
                                         }, void 0, true) : 'Cancelar'
                                     }, void 0, false, {
                                         fileName: "[project]/components/ClientAppointments.tsx",
-                                        lineNumber: 175,
+                                        lineNumber: 190,
                                         columnNumber: 37
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/components/ClientAppointments.tsx",
-                                lineNumber: 166,
+                                lineNumber: 181,
                                 columnNumber: 29
                             }, this)
                         ]
                     }, appt.id, true, {
                         fileName: "[project]/components/ClientAppointments.tsx",
-                        lineNumber: 152,
+                        lineNumber: 167,
                         columnNumber: 25
                     }, this);
                 })
             }, void 0, false, {
                 fileName: "[project]/components/ClientAppointments.tsx",
-                lineNumber: 141,
+                lineNumber: 156,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -372,13 +387,13 @@ function ClientAppointments({ clientId }) {
                 ]
             }, void 0, true, {
                 fileName: "[project]/components/ClientAppointments.tsx",
-                lineNumber: 196,
+                lineNumber: 211,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/components/ClientAppointments.tsx",
-        lineNumber: 138,
+        lineNumber: 153,
         columnNumber: 9
     }, this);
 }

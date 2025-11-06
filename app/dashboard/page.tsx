@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+// Importação do Lock para o cadeado
 import { 
   Calendar, 
   Users, 
@@ -20,23 +21,21 @@ import {
   DollarSign,
   CalendarCheck,
   ClipboardCheck,
+  Lock // NOVO: Ícone de Cadeado
 } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient'; 
 import NewAppointmentModal from '../../components/NewAppointmentModal';
 
 
 // --- Tipos de Dados (Baseados no seu esquema) ---
-// Tipos auxiliares corrigidos (JOINs retornam arrays)
 type ProfileData = { id: string; name: string; phone_number: string };
 type ServiceData = { id: number; name: string; price: number };
 
 type AppointmentItem = {
     id: number;
-    start_time: string; // TIMESTAMPTZ
+    start_time: string; 
     end_time: string;
     status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
-    
-    // CORRIGIDO: Tipado como array
     client_id: ProfileData[] | null; 
     service_id: ServiceData[] | null; 
 };
@@ -105,8 +104,19 @@ function Header({ user }: { user: { name: string, avatarUrl: string } }) {
                 <Users className="inline-block w-5 h-5 mr-1" />
                 Clientes
               </a>
-              <a href="#" className="font-medium text-gray-500 hover:text-gray-700 px-1 py-2 text-sm">
+              {/* NOVO LINK DE HORÁRIOS */}
+              <a href="/schedules" 
+                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/schedules') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
+                <Clock className="inline-block w-5 h-5 mr-1" />
+                Horários
+              </a>
+              {/* LINK DE RELATÓRIOS (BLOQUEADO) */}
+              <a href="#" 
+                 className={`font-medium px-1 py-2 text-sm transition text-gray-400 cursor-not-allowed`}
+                 title="Recurso em desenvolvimento"
+              >
                 <BarChart3 className="inline-block w-5 h-5 mr-1" />
+                <Lock className="inline-block w-4 h-4 mr-1" /> 
                 Relatórios
               </a>
             </nav>
@@ -207,7 +217,6 @@ function UpcomingAppointments({ appointments, isLoading, error }: { appointments
                     {time.split(':')[0]}h
                 </div>
                 <div>
-                    {/* ACESSO CORRIGIDO */}
                     <p className="text-md font-semibold text-gray-900">{getClientName(appt)}</p>
                     <p className="text-sm text-gray-600">{getServiceName(appt)}</p>
                 </div>
@@ -285,7 +294,6 @@ function PendingAppointmentsCard({ appointments, onConfirm, isConfirming }: { ap
                                     {date} às {time}
                                 </div>
                                 <div>
-                                    {/* ACESSO CORRIGIDO */}
                                     <p className="text-md font-semibold text-gray-900">{getClientName(appt)}</p>
                                     <p className="text-sm text-gray-600">{getServiceName(appt)}</p>
                                 </div>

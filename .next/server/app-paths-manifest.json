@@ -5,5 +5,6 @@
   "/clients/page": "app/clients/page.js",
   "/dashboard/page": "app/dashboard/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/schedules/page": "app/schedules/page.js"
 }
