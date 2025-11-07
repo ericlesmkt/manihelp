@@ -6,5 +6,6 @@
   "/dashboard/page": "/dashboard",
   "/favicon.ico/route": "/favicon.ico",
   "/page": "/",
-  "/schedules/page": "/schedules"
+  "/schedules/page": "/schedules",
+  "/services/page": "/services"
 }

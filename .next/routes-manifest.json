@@ -68,6 +68,12 @@
       "regex": "^/schedules(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/schedules(?:/)?$"
+    },
+    {
+      "page": "/services",
+      "regex": "^/services(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/services(?:/)?$"
     }
   ],
   "dataRoutes": [],

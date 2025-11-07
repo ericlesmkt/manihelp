@@ -33,22 +33,23 @@ import AppointmentDetailModal from '../../components/AppointmentDetailModal';
 
 // --- Tipos de Dados (Baseados no seu esquema) ---
 type ProfileData = { id: string; name: string; phone_number: string };
-type ServiceData = { id: number; name: string; price: number };
+// CORREÇÃO: Adicionado duration_minutes para ser consistente
+type ServiceData = { id: number; name: string; price: number; duration_minutes: number; }; 
 type NotificationItem = { id: number; message: string; is_read: boolean; created_at: string; type: string }; 
 
-// CORREÇÃO: Adicionado override_price e notes (para o modal de detalhes)
 type AppointmentItem = {
     id: number;
     start_time: string; 
     end_time: string;
     status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+    // Colunas de Convidado
     guest_name: string | null; 
     guest_phone: string | null;
     notes: string | null;
     override_price: number | null; // NOVO CAMPO
     
     client_id: ProfileData[] | null; 
-    service_id: ServiceData[] | null; 
+    service_id: ServiceData[] | null; // Usará o ServiceData corrigido
 };
 
 type SummaryStat = {
@@ -264,6 +265,7 @@ function UpcomingAppointments({ appointments, isLoading, error, onShowDetails }:
                     Pendente
                     </span>
                 )}
+                {/* BOTÃO ATIVADO */}
                 <button 
                     onClick={() => onShowDetails(appt)} 
                     className="text-sm font-medium text-mani-pink-600 hover:text-mani-pink-800"
@@ -338,6 +340,7 @@ function PendingAppointmentsCard({ appointments, onConfirm, isConfirming, onShow
                             
                             {/* Ações */}
                             <div className="mt-3 sm:mt-0 flex items-center space-x-3">
+                                {/* BOTÃO DE DETALHES */}
                                 <button 
                                     onClick={() => onShowDetails(appt)} 
                                     disabled={isBusy}
@@ -419,10 +422,7 @@ export default function DashboardPage() {
             .from('appointments')
             .update({ status: 'confirmed' })
             .eq('id', id);
-
-        if (updateError) {
-            throw new Error(updateError.message);
-        }
+        if (updateError) throw new Error(updateError.message);
     } catch (e: any) {
         console.error("Erro ao confirmar agendamento:", e);
         alert(`Falha ao confirmar. Detalhes: ${e.message}`);
@@ -449,14 +449,13 @@ export default function DashboardPage() {
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       
-      // CORREÇÃO: Adicionado 'override_price' e 'notes' ao select
       const { data, error } = await supabase
         .from('appointments')
         .select(`
           id, start_time, end_time, status,
           guest_name, guest_phone, notes, override_price, 
           client_id (id, name, phone_number),
-          service_id (id, name, price)
+          service_id (id, name, price, duration_minutes)
         `)
         .eq('manicure_id', manicureId)
         .gte('start_time', yesterday.toISOString()) 
@@ -550,7 +549,6 @@ export default function DashboardPage() {
   // 4. Calcular Estatísticas do Resumo do Dia
   const todayRevenue = todayAppointments.reduce((sum, appt) => {
     if (appt.status === 'completed' || appt.status === 'confirmed') {
-      // CORREÇÃO: Usa a função getPrice
       return sum + getPrice(appt);
     }
     return sum;
@@ -644,6 +642,7 @@ export default function DashboardPage() {
       {/* Modal de Detalhes (Renderizado aqui) */}
       <AppointmentDetailModal 
         appointment={selectedAppointment} 
+        manicureId={manicureId || ''} 
         onClose={() => setSelectedAppointment(null)} 
         onUpdate={fetchAppointments} // Passa a função de re-fetch
       />
