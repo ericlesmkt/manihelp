@@ -3,7 +3,6 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-// Importação do Lock para o cadeado
 import { 
   Calendar, 
   Users, 
@@ -21,21 +20,33 @@ import {
   DollarSign,
   CalendarCheck,
   ClipboardCheck,
-  Lock // NOVO: Ícone de Cadeado
+  Lock,
+  Briefcase, 
+  Trash2,
+  Info 
 } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient'; 
 import NewAppointmentModal from '../../components/NewAppointmentModal';
+import NotificationBell from '../../components/NotificationBell'; 
+import AppointmentDetailModal from '../../components/AppointmentDetailModal'; 
 
 
 // --- Tipos de Dados (Baseados no seu esquema) ---
 type ProfileData = { id: string; name: string; phone_number: string };
 type ServiceData = { id: number; name: string; price: number };
+type NotificationItem = { id: number; message: string; is_read: boolean; created_at: string; type: string }; 
 
+// CORREÇÃO: Adicionado override_price e notes (para o modal de detalhes)
 type AppointmentItem = {
     id: number;
     start_time: string; 
     end_time: string;
     status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+    guest_name: string | null; 
+    guest_phone: string | null;
+    notes: string | null;
+    override_price: number | null; // NOVO CAMPO
+    
     client_id: ProfileData[] | null; 
     service_id: ServiceData[] | null; 
 };
@@ -53,8 +64,8 @@ const mockUser = {
 };
 
 
-// --- Componente: Header ---
-function Header({ user }: { user: { name: string, avatarUrl: string } }) {
+// --- Componente: Header (Ajustado para usar o Bell Component) ---
+function Header({ user, manicureId }: { user: { name: string, avatarUrl: string }, manicureId: string | null }) {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [manicureName, setManicureName] = useState(user.name);
@@ -71,7 +82,7 @@ function Header({ user }: { user: { name: string, avatarUrl: string } }) {
       const { data: { user: authUser } } = await supabase.auth.getUser();
       if (!authUser) return;
       
-      const { data: profile, error } = await supabase
+      const { data: profile } = await supabase
         .from('profiles')
         .select('name')
         .eq('id', authUser.id)
@@ -104,13 +115,16 @@ function Header({ user }: { user: { name: string, avatarUrl: string } }) {
                 <Users className="inline-block w-5 h-5 mr-1" />
                 Clientes
               </a>
-              {/* NOVO LINK DE HORÁRIOS */}
+              <a href="/services" 
+                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/services') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
+                <Briefcase className="inline-block w-5 h-5 mr-1" />
+                Serviços
+              </a>
               <a href="/schedules" 
                  className={`font-medium px-1 py-2 text-sm transition ${isActive('/schedules') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
                 <Clock className="inline-block w-5 h-5 mr-1" />
                 Horários
               </a>
-              {/* LINK DE RELATÓRIOS (BLOQUEADO) */}
               <a href="#" 
                  className={`font-medium px-1 py-2 text-sm transition text-gray-400 cursor-not-allowed`}
                  title="Recurso em desenvolvimento"
@@ -123,17 +137,14 @@ function Header({ user }: { user: { name: string, avatarUrl: string } }) {
           </div>
 
           <div className="flex items-center space-x-4">
-            <button className="text-gray-400 hover:text-gray-500 rounded-full p-1 relative">
-              <Bell className="w-6 h-6" />
-              <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-mani-pink-500 ring-2 ring-white" />
-            </button>
+            {/* COMPONENTE BELL ATIVO */}
+            {manicureId && <NotificationBell manicureId={manicureId} />} 
 
             <div className="relative">
               <button onClick={() => setMenuOpen(!menuOpen)} className="flex items-center space-x-2 rounded-full p-1 pr-2 hover:bg-gray-100">
                 <img 
                   className="w-8 h-8 rounded-full object-cover" 
                   src={user.avatarUrl}
-                  alt="Avatar do usuário" 
                   onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src="https://placehold.co/100x100/E62E7A/FFFFFF?text=M"; }}
                 />
                 <span className="hidden sm:inline font-medium text-sm text-gray-700">{manicureName}</span>
@@ -161,12 +172,31 @@ function Header({ user }: { user: { name: string, avatarUrl: string } }) {
 }
 
 
+// --- Funções Auxiliares de Dados (Atualizadas) ---
+const getClientName = (appt: AppointmentItem) => appt.client_id ? appt.client_id[0]?.name : appt.guest_name || 'Cliente (Convidado)';
+const getServiceName = (appt: AppointmentItem) => appt.service_id && appt.service_id[0] ? appt.service_id[0].name : 'Serviço Removido';
+// CORREÇÃO: Função que checa o preço customizado (override)
+const getPrice = (appt: AppointmentItem) => {
+    // 1. Se override_price existir, use-o.
+    if (appt.override_price !== null) {
+        return appt.override_price;
+    }
+    // 2. Senão, use o preço do serviço.
+    if (appt.service_id && appt.service_id[0]) {
+        return appt.service_id[0].price;
+    }
+    // 3. Senão, 0.
+    return 0;
+};
+
+
 // --- Componente: UpcomingAppointments (Agendamentos de Hoje) ---
-function UpcomingAppointments({ appointments, isLoading, error }: { appointments: AppointmentItem[], isLoading: boolean, error: string | null }) {
-  
-  // FUNÇÃO AUXILIAR PARA ACESSAR OS DADOS DO JOIN CORRETAMENTE
-  const getClientName = (appt: AppointmentItem) => appt.client_id && appt.client_id[0] ? appt.client_id[0].name : 'Cliente Desconhecido';
-  const getServiceName = (appt: AppointmentItem) => appt.service_id && appt.service_id[0] ? appt.service_id[0].name : 'Serviço Removido';
+function UpcomingAppointments({ appointments, isLoading, error, onShowDetails }: { 
+    appointments: AppointmentItem[], 
+    isLoading: boolean, 
+    error: string | null,
+    onShowDetails: (appt: AppointmentItem) => void 
+}) {
 
   if (isLoading) {
     return (
@@ -234,7 +264,10 @@ function UpcomingAppointments({ appointments, isLoading, error }: { appointments
                     Pendente
                     </span>
                 )}
-                <button className="text-sm font-medium text-mani-pink-600 hover:text-mani-pink-800">
+                <button 
+                    onClick={() => onShowDetails(appt)} 
+                    className="text-sm font-medium text-mani-pink-600 hover:text-mani-pink-800"
+                >
                     Detalhes
                 </button>
                 </div>
@@ -253,10 +286,14 @@ function UpcomingAppointments({ appointments, isLoading, error }: { appointments
 
 
 // --- Componente: PendingAppointmentsCard (Novo) ---
-function PendingAppointmentsCard({ appointments, onConfirm, isConfirming }: { appointments: AppointmentItem[], onConfirm: (id: number) => void, isConfirming: number | null }) {
+function PendingAppointmentsCard({ appointments, onConfirm, isConfirming, onShowDetails }: { 
+    appointments: AppointmentItem[], 
+    onConfirm: (id: number) => void, 
+    isConfirming: number | null,
+    onShowDetails: (appt: AppointmentItem) => void
+}) {
     
-    // FUNÇÃO AUXILIAR PARA ACESSAR OS DADOS DO JOIN CORRETAMENTE
-    const getClientName = (appt: AppointmentItem) => appt.client_id && appt.client_id[0] ? appt.client_id[0].name : 'Cliente Desconhecido';
+    const getClientName = (appt: AppointmentItem) => appt.client_id && appt.client_id[0] ? appt.client_id[0].name : appt.guest_name || 'Cliente (Convidado)';
     const getServiceName = (appt: AppointmentItem) => appt.service_id && appt.service_id[0] ? appt.service_id[0].name : 'Serviço Removido';
 
     // Filtra agendamentos PENDENTES E FUTUROS
@@ -302,6 +339,14 @@ function PendingAppointmentsCard({ appointments, onConfirm, isConfirming }: { ap
                             {/* Ações */}
                             <div className="mt-3 sm:mt-0 flex items-center space-x-3">
                                 <button 
+                                    onClick={() => onShowDetails(appt)} 
+                                    disabled={isBusy}
+                                    className="px-3 py-2 text-sm font-medium text-mani-pink-600 hover:text-mani-pink-800 transition rounded-lg hover:bg-mani-pink-50"
+                                >
+                                    <Info className="w-4 h-4" />
+                                </button>
+                                
+                                <button 
                                     onClick={() => onConfirm(appt.id)}
                                     disabled={isBusy}
                                     className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg shadow-md hover:bg-green-700 transition flex items-center justify-center disabled:opacity-50"
@@ -315,7 +360,6 @@ function PendingAppointmentsCard({ appointments, onConfirm, isConfirming }: { ap
                                         </>
                                     )}
                                 </button>
-                                {/* Futuramente: Botão de Rejeitar/Detalhes */}
                             </div>
                         </li>
                     );
@@ -324,6 +368,7 @@ function PendingAppointmentsCard({ appointments, onConfirm, isConfirming }: { ap
         </div>
     );
 }
+
 
 // --- Componente: SummaryCard ---
 function SummaryCard({ stats }: { stats: SummaryStat[] }) {
@@ -364,6 +409,7 @@ export default function DashboardPage() {
   const [manicureId, setManicureId] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirming, setIsConfirming] = useState<number | null>(null); 
+  const [selectedAppointment, setSelectedAppointment] = useState<AppointmentItem | null>(null);
 
   // Função para confirmar um agendamento
   const handleConfirm = async (id: number) => {
@@ -377,13 +423,8 @@ export default function DashboardPage() {
         if (updateError) {
             throw new Error(updateError.message);
         }
-
-        // Forçamos a busca manual.
-        fetchAppointments(); 
-
     } catch (e: any) {
         console.error("Erro ao confirmar agendamento:", e);
-        // Implementar um modal de erro no futuro
         alert(`Falha ao confirmar. Detalhes: ${e.message}`);
     } finally {
         setIsConfirming(null);
@@ -400,24 +441,25 @@ export default function DashboardPage() {
   
   // Função que busca TODOS os agendamentos (Hoje + Pendentes + Futuros)
   const fetchAppointments = useCallback(async () => {
-    setIsLoading(true);
+    // setIsLoading(true); // Não seta para evitar o "piscar" no Realtime
     setError(null);
     if (!manicureId) return; 
 
     try {
-      // Busca agendamentos a partir de hoje (maior que ontem)
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       
+      // CORREÇÃO: Adicionado 'override_price' e 'notes' ao select
       const { data, error } = await supabase
         .from('appointments')
         .select(`
           id, start_time, end_time, status,
+          guest_name, guest_phone, notes, override_price, 
           client_id (id, name, phone_number),
           service_id (id, name, price)
         `)
         .eq('manicure_id', manicureId)
-        .gte('start_time', yesterday.toISOString()) // Traz a partir de ontem
+        .gte('start_time', yesterday.toISOString()) 
         .order('start_time', { ascending: true }); 
 
       if (error) {
@@ -430,7 +472,7 @@ export default function DashboardPage() {
       console.error('Erro ao buscar agendamentos:', e);
       setError(`Falha ao buscar dados: ${e.message}`);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); 
     }
   }, [manicureId]);
 
@@ -438,6 +480,7 @@ export default function DashboardPage() {
   // 1. CARREGAMENTO E AUTORIZAÇÃO
   useEffect(() => {
     async function checkAuthAndRole() {
+      setIsLoading(true); 
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
@@ -471,13 +514,30 @@ export default function DashboardPage() {
   }, [router]);
 
 
-  // 2. Buscar Agendamentos quando o ID da Manicure estiver pronto
+  // 2. REALTIME (Sem Polling)
   useEffect(() => {
     if (manicureId) {
       fetchAppointments();
-      // Polling de 10s para atualizar caso o Realtime falhe
-      const interval = setInterval(fetchAppointments, 10000); 
-      return () => clearInterval(interval);
+      
+      const channel = supabase
+        .channel(`dashboard_appointments_${manicureId}`)
+        .on(
+            'postgres_changes',
+            { 
+              event: '*', 
+              schema: 'public', 
+              table: 'appointments', 
+              filter: `manicure_id=eq.${manicureId}` 
+            },
+            () => {
+                fetchAppointments();
+            }
+        )
+        .subscribe();
+        
+      return () => {
+          supabase.removeChannel(channel);
+      };
     }
   }, [manicureId, fetchAppointments]); 
 
@@ -490,8 +550,8 @@ export default function DashboardPage() {
   // 4. Calcular Estatísticas do Resumo do Dia
   const todayRevenue = todayAppointments.reduce((sum, appt) => {
     if (appt.status === 'completed' || appt.status === 'confirmed') {
-      const price = appt.service_id && appt.service_id[0]?.price ? parseFloat(String(appt.service_id[0].price)) : 0;
-      return sum + price;
+      // CORREÇÃO: Usa a função getPrice
+      return sum + getPrice(appt);
     }
     return sum;
   }, 0);
@@ -505,11 +565,11 @@ export default function DashboardPage() {
   // Função para re-fetch quando um novo agendamento for criado
   const handleAppointmentCreated = () => {
     setIsModalOpen(false); 
-    fetchAppointments(); 
+    fetchAppointments(); // Força a atualização imediata
   };
   
   // Exibir loader enquanto o estado de auth e role não é definido
-  if (!manicureId && !error) {
+  if (!manicureId && !error && isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <Loader2 className="w-8 h-8 text-mani-pink-600 animate-spin" />
@@ -521,7 +581,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 font-inter">
-      <Header user={mockUser} />
+      <Header user={mockUser} manicureId={manicureId} />
 
       <main className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
         
@@ -530,7 +590,7 @@ export default function DashboardPage() {
             <h1 className="text-3xl font-bold text-gray-900">
               Bem-vinda de volta, Dona Maria!
             </h1>
-            <p className="text-lg text-gray-600 mt-1">
+            <p className="lg:text-lg text-gray-600 mt-1">
               Você tem {todayAppointments.length} agendamentos confirmados para hoje.
             </p>
           </div>
@@ -548,13 +608,19 @@ export default function DashboardPage() {
           <div className="lg:col-span-2 space-y-8">
             
             {/* CARD 1: AGENDAMENTOS DE HOJE */}
-            <UpcomingAppointments appointments={todayAppointments} isLoading={isLoading} error={error} />
+            <UpcomingAppointments 
+                appointments={todayAppointments} 
+                isLoading={isLoading} 
+                error={error} 
+                onShowDetails={setSelectedAppointment} 
+            />
             
             {/* CARD 2: AGENDAMENTOS PENDENTES (NOVO) */}
             <PendingAppointmentsCard 
                 appointments={allAppointments} 
                 onConfirm={handleConfirm} 
                 isConfirming={isConfirming} 
+                onShowDetails={setSelectedAppointment} 
             />
 
           </div>
@@ -574,6 +640,13 @@ export default function DashboardPage() {
           onAppointmentCreated={handleAppointmentCreated}
         />
       )}
+      
+      {/* Modal de Detalhes (Renderizado aqui) */}
+      <AppointmentDetailModal 
+        appointment={selectedAppointment} 
+        onClose={() => setSelectedAppointment(null)} 
+        onUpdate={fetchAppointments} // Passa a função de re-fetch
+      />
     </div>
   );
 }

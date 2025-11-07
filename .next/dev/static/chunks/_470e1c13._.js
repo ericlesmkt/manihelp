@@ -33,19 +33,20 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$supabaseClient$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/supabaseClient.ts [app-client] (ecmascript)");
-// CORREÇÃO: Adicionado Users, Bell, LogOut, ChevronDown, BarChart3, Settings, Lock
+// Ícones COMPLETOS para o Header e a página
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/loader-2.js [app-client] (ecmascript) <export default as Loader2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$calendar$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Calendar$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/calendar.js [app-client] (ecmascript) <export default as Calendar>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/clock.js [app-client] (ecmascript) <export default as Clock>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plus.js [app-client] (ecmascript) <export default as Plus>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/trash-2.js [app-client] (ecmascript) <export default as Trash2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/users.js [app-client] (ecmascript) <export default as Users>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/log-out.js [app-client] (ecmascript) <export default as LogOut>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-down.js [app-client] (ecmascript) <export default as ChevronDown>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/clock.js [app-client] (ecmascript) <export default as Clock>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/trash-2.js [app-client] (ecmascript) <export default as Trash2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plus.js [app-client] (ecmascript) <export default as Plus>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$briefcase$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Briefcase$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/briefcase.js [app-client] (ecmascript) <export default as Briefcase>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bar$2d$chart$2d$3$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__BarChart3$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/bar-chart-3.js [app-client] (ecmascript) <export default as BarChart3>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$settings$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Settings$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/settings.js [app-client] (ecmascript) <export default as Settings>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bell$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Bell$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/bell.js [app-client] (ecmascript) <export default as Bell>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$lock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Lock$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/lock.js [app-client] (ecmascript) <export default as Lock>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bell$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Bell$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/bell.js [app-client] (ecmascript) <export default as Bell>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/chevron-down.js [app-client] (ecmascript) <export default as ChevronDown>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/log-out.js [app-client] (ecmascript) <export default as LogOut>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$settings$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Settings$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/settings.js [app-client] (ecmascript) <export default as Settings>");
 ;
 var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
 "use client";
@@ -80,7 +81,7 @@ function SchedulesPage() {
         name: "Dona Maria",
         avatarUrl: "https://placehold.co/100x100/E62E7A/FFFFFF?text=M"
     };
-    // Função de Busca de Horários
+    // Função de Busca de Horários (Usamos useCallback para otimização)
     const fetchSchedules = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "SchedulesPage.useCallback[fetchSchedules]": async (id)=>{
             setError(null);
@@ -95,12 +96,10 @@ function SchedulesPage() {
             } catch (e) {
                 setError('Falha ao carregar horários: ' + e.message);
                 console.error(e);
-            } finally{
-                setIsLoading(false);
             }
         }
     }["SchedulesPage.useCallback[fetchSchedules]"], []);
-    // 1. CARREGAMENTO E AUTORIZAÇÃO
+    // 1. CARREGAMENTO E AUTORIZAÇÃO (CORREÇÃO DE ESCOPO)
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "SchedulesPage.useEffect": ()=>{
             async function checkAuthAndLoadProfile() {
@@ -119,9 +118,10 @@ function SchedulesPage() {
                     id: profile.id,
                     name: profile.name
                 });
-                fetchSchedules(user.id);
+                await fetchSchedules(user.id);
+                setIsLoading(false); // Movemos o setIsLoading(false) para dentro do escopo seguro
             }
-            checkAuthAndLoadProfile();
+            checkAuthAndLoadProfile(); // CHAMA A FUNÇÃO AQUI (CORREÇÃO DE ESCOPO)
             const { data: { subscription } } = __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$supabaseClient$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].auth.onAuthStateChange({
                 "SchedulesPage.useEffect": (event)=>{
                     if (event === 'SIGNED_OUT') router.replace('/');
@@ -134,7 +134,7 @@ function SchedulesPage() {
     }["SchedulesPage.useEffect"], [
         router,
         fetchSchedules
-    ]);
+    ]); // Dependência de fetchSchedules
     // Adicionar Novo Horário
     const handleAddSchedule = async (e)=>{
         e.preventDefault();
@@ -176,6 +176,7 @@ function SchedulesPage() {
     // Remover Horário
     const handleDeleteSchedule = async (id)=>{
         // NOTA: substitua alert/confirm por um modal customizado no futuro
+        // Usamos confirm aqui para agilizar, mas deve ser um Modal na UX final.
         if (!manicureProfile || !confirm('Tem certeza que deseja excluir este horário?')) return;
         setIsSaving(true);
         setError(null);
@@ -197,7 +198,7 @@ function SchedulesPage() {
                     className: "w-8 h-8 text-mani-pink-600 animate-spin"
                 }, void 0, false, {
                     fileName: "[project]/app/schedules/page.tsx",
-                    lineNumber: 158,
+                    lineNumber: 174,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -205,13 +206,13 @@ function SchedulesPage() {
                     children: "Carregando horários..."
                 }, void 0, false, {
                     fileName: "[project]/app/schedules/page.tsx",
-                    lineNumber: 159,
+                    lineNumber: 175,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/schedules/page.tsx",
-            lineNumber: 157,
+            lineNumber: 173,
             columnNumber: 13
         }, this);
     }
@@ -222,7 +223,7 @@ function SchedulesPage() {
                 user: mockUser
             }, void 0, false, {
                 fileName: "[project]/app/schedules/page.tsx",
-                lineNumber: 167,
+                lineNumber: 183,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -238,14 +239,14 @@ function SchedulesPage() {
                                         className: "w-7 h-7 mr-3 text-mani-pink-600"
                                     }, void 0, false, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 173,
+                                        lineNumber: 189,
                                         columnNumber: 25
                                     }, this),
                                     "Agenda Fixa Semanal"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/schedules/page.tsx",
-                                lineNumber: 172,
+                                lineNumber: 188,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -253,13 +254,13 @@ function SchedulesPage() {
                                 children: "Defina seus dias e horários de trabalho para que seus clientes possam agendar."
                             }, void 0, false, {
                                 fileName: "[project]/app/schedules/page.tsx",
-                                lineNumber: 176,
+                                lineNumber: 192,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/schedules/page.tsx",
-                        lineNumber: 171,
+                        lineNumber: 187,
                         columnNumber: 17
                     }, this),
                     error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -267,7 +268,7 @@ function SchedulesPage() {
                         children: error
                     }, void 0, false, {
                         fileName: "[project]/app/schedules/page.tsx",
-                        lineNumber: 182,
+                        lineNumber: 198,
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -280,14 +281,14 @@ function SchedulesPage() {
                                         className: "w-5 h-5 mr-2"
                                     }, void 0, false, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 190,
+                                        lineNumber: 206,
                                         columnNumber: 25
                                     }, this),
                                     "Adicionar Novo Bloco"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/schedules/page.tsx",
-                                lineNumber: 189,
+                                lineNumber: 205,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -303,7 +304,7 @@ function SchedulesPage() {
                                                 children: "Dia"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 196,
+                                                lineNumber: 212,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -319,18 +320,18 @@ function SchedulesPage() {
                                                         children: day
                                                     }, index, false, {
                                                         fileName: "[project]/app/schedules/page.tsx",
-                                                        lineNumber: 204,
+                                                        lineNumber: 220,
                                                         columnNumber: 37
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 197,
+                                                lineNumber: 213,
                                                 columnNumber: 29
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 195,
+                                        lineNumber: 211,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -341,7 +342,7 @@ function SchedulesPage() {
                                                 children: "Início"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 211,
+                                                lineNumber: 227,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -356,13 +357,13 @@ function SchedulesPage() {
                                                 className: "mt-1 w-full py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-mani-pink-500 focus:border-mani-pink-500"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 212,
+                                                lineNumber: 228,
                                                 columnNumber: 29
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 210,
+                                        lineNumber: 226,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -373,7 +374,7 @@ function SchedulesPage() {
                                                 children: "Fim"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 224,
+                                                lineNumber: 240,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -388,13 +389,13 @@ function SchedulesPage() {
                                                 className: "mt-1 w-full py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-mani-pink-500 focus:border-mani-pink-500"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 225,
+                                                lineNumber: 241,
                                                 columnNumber: 29
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 223,
+                                        lineNumber: 239,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -407,29 +408,29 @@ function SchedulesPage() {
                                                 className: "w-5 h-5 animate-spin"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 242,
+                                                lineNumber: 258,
                                                 columnNumber: 45
                                             }, this) : 'Salvar'
                                         }, void 0, false, {
                                             fileName: "[project]/app/schedules/page.tsx",
-                                            lineNumber: 237,
+                                            lineNumber: 253,
                                             columnNumber: 29
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 236,
+                                        lineNumber: 252,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/schedules/page.tsx",
-                                lineNumber: 193,
+                                lineNumber: 209,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/schedules/page.tsx",
-                        lineNumber: 188,
+                        lineNumber: 204,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -440,7 +441,7 @@ function SchedulesPage() {
                                 children: "Horários Fixos Cadastrados"
                             }, void 0, false, {
                                 fileName: "[project]/app/schedules/page.tsx",
-                                lineNumber: 251,
+                                lineNumber: 267,
                                 columnNumber: 21
                             }, this),
                             schedules.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -448,7 +449,7 @@ function SchedulesPage() {
                                 children: "Nenhum horário cadastrado. Comece adicionando um!"
                             }, void 0, false, {
                                 fileName: "[project]/app/schedules/page.tsx",
-                                lineNumber: 253,
+                                lineNumber: 269,
                                 columnNumber: 25
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
                                 className: "divide-y divide-gray-100",
@@ -463,7 +464,7 @@ function SchedulesPage() {
                                                         children: DaysOfWeek[schedule.day_of_week]
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/schedules/page.tsx",
-                                                        lineNumber: 262,
+                                                        lineNumber: 278,
                                                         columnNumber: 41
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -475,13 +476,13 @@ function SchedulesPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/app/schedules/page.tsx",
-                                                        lineNumber: 265,
+                                                        lineNumber: 281,
                                                         columnNumber: 41
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 261,
+                                                lineNumber: 277,
                                                 columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -495,46 +496,46 @@ function SchedulesPage() {
                                                         className: "w-5 h-5"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/schedules/page.tsx",
-                                                        lineNumber: 279,
+                                                        lineNumber: 295,
                                                         columnNumber: 45
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/schedules/page.tsx",
-                                                    lineNumber: 272,
+                                                    lineNumber: 288,
                                                     columnNumber: 41
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 271,
+                                                lineNumber: 287,
                                                 columnNumber: 37
                                             }, this)
                                         ]
                                     }, schedule.id, true, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 259,
+                                        lineNumber: 275,
                                         columnNumber: 33
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/app/schedules/page.tsx",
-                                lineNumber: 257,
+                                lineNumber: 273,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/schedules/page.tsx",
-                        lineNumber: 250,
+                        lineNumber: 266,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/schedules/page.tsx",
-                lineNumber: 169,
+                lineNumber: 185,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/schedules/page.tsx",
-        lineNumber: 166,
+        lineNumber: 182,
         columnNumber: 9
     }, this);
 }
@@ -544,7 +545,7 @@ _s(SchedulesPage, "mNMtFSSKTrl/Cm19BWe4WihzwHU=", false, function() {
     ];
 });
 _c = SchedulesPage;
-// Reutiliza o componente Header para manter a navegação (necessário para o TS)
+// Reutiliza o componente Header
 function Header({ user }) {
     _s1();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
@@ -581,7 +582,7 @@ function Header({ user }) {
                                 children: "ManiHelp"
                             }, void 0, false, {
                                 fileName: "[project]/app/schedules/page.tsx",
-                                lineNumber: 325,
+                                lineNumber: 341,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -595,14 +596,14 @@ function Header({ user }) {
                                                 className: "inline-block w-5 h-5 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 329,
+                                                lineNumber: 345,
                                                 columnNumber: 33
                                             }, this),
                                             "Agenda"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 327,
+                                        lineNumber: 343,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -613,15 +614,33 @@ function Header({ user }) {
                                                 className: "inline-block w-5 h-5 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 334,
+                                                lineNumber: 350,
                                                 columnNumber: 33
                                             }, this),
                                             "Clientes"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 332,
+                                        lineNumber: 348,
                                         columnNumber: 29
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                        href: "/services",
+                                        className: `font-medium px-1 py-2 text-sm transition ${isActive('/services') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$briefcase$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Briefcase$3e$__["Briefcase"], {
+                                                className: "inline-block w-5 h-5 mr-1"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/schedules/page.tsx",
+                                                lineNumber: 355,
+                                                columnNumber: 33
+                                            }, this),
+                                            "Serviços"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/app/schedules/page.tsx",
+                                        lineNumber: 353,
+                                        columnNumber: 30
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                                         href: "/schedules",
@@ -631,15 +650,15 @@ function Header({ user }) {
                                                 className: "inline-block w-5 h-5 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 340,
+                                                lineNumber: 360,
                                                 columnNumber: 33
                                             }, this),
                                             "Horários"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 338,
-                                        columnNumber: 30
+                                        lineNumber: 358,
+                                        columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                                         href: "#",
@@ -650,33 +669,33 @@ function Header({ user }) {
                                                 className: "inline-block w-5 h-5 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 348,
+                                                lineNumber: 367,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$lock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Lock$3e$__["Lock"], {
                                                 className: "inline-block w-4 h-4 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 349,
+                                                lineNumber: 368,
                                                 columnNumber: 33
                                             }, this),
                                             "Relatórios"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 344,
-                                        columnNumber: 29
+                                        lineNumber: 363,
+                                        columnNumber: 30
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/schedules/page.tsx",
-                                lineNumber: 326,
+                                lineNumber: 342,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/schedules/page.tsx",
-                        lineNumber: 324,
+                        lineNumber: 340,
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -689,20 +708,20 @@ function Header({ user }) {
                                         className: "w-6 h-6"
                                     }, void 0, false, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 357,
+                                        lineNumber: 376,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "absolute top-0 right-0 block h-2 w-2 rounded-full bg-mani-pink-500 ring-2 ring-white"
                                     }, void 0, false, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 358,
+                                        lineNumber: 377,
                                         columnNumber: 29
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/schedules/page.tsx",
-                                lineNumber: 356,
+                                lineNumber: 375,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -717,20 +736,20 @@ function Header({ user }) {
                                                 children: manicureName
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 363,
+                                                lineNumber: 382,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                 className: `w-4 h-4 text-gray-500 transition-transform ${menuOpen ? 'rotate-180' : ''}`
                                             }, void 0, false, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 364,
+                                                lineNumber: 383,
                                                 columnNumber: 33
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 362,
+                                        lineNumber: 381,
                                         columnNumber: 29
                                     }, this),
                                     menuOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -744,14 +763,14 @@ function Header({ user }) {
                                                         className: "inline-block w-4 h-4 mr-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/schedules/page.tsx",
-                                                        lineNumber: 369,
+                                                        lineNumber: 388,
                                                         columnNumber: 41
                                                     }, this),
                                                     "Configurações"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 368,
+                                                lineNumber: 387,
                                                 columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -762,48 +781,48 @@ function Header({ user }) {
                                                         className: "inline-block w-4 h-4 mr-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/schedules/page.tsx",
-                                                        lineNumber: 373,
+                                                        lineNumber: 392,
                                                         columnNumber: 41
                                                     }, this),
                                                     "Sair"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/schedules/page.tsx",
-                                                lineNumber: 372,
+                                                lineNumber: 391,
                                                 columnNumber: 37
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/schedules/page.tsx",
-                                        lineNumber: 367,
+                                        lineNumber: 386,
                                         columnNumber: 33
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/schedules/page.tsx",
-                                lineNumber: 361,
+                                lineNumber: 380,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/schedules/page.tsx",
-                        lineNumber: 355,
+                        lineNumber: 374,
                         columnNumber: 21
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/schedules/page.tsx",
-                lineNumber: 323,
+                lineNumber: 339,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/schedules/page.tsx",
-            lineNumber: 322,
+            lineNumber: 338,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/schedules/page.tsx",
-        lineNumber: 321,
+        lineNumber: 337,
         columnNumber: 9
     }, this);
 }

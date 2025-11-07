@@ -1,11 +1,27 @@
 // Nome do arquivo: app/schedules/page.tsx
 "use client";
 
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../lib/supabaseClient';
-// CORREÇÃO: Adicionado Users, Bell, LogOut, ChevronDown, BarChart3, Settings, Lock
-import { Loader2, Calendar, Clock, X, Plus, Trash2, Users, AlertTriangle, LogOut, ChevronDown, BarChart3, Settings, Bell, Lock } from 'lucide-react';
+// Ícones COMPLETOS para o Header e a página
+import { 
+    Loader2, 
+    Calendar, 
+    Users, 
+    Clock, 
+    Trash2, 
+    Plus, 
+    Briefcase, 
+    DollarSign, 
+    AlertTriangle, 
+    BarChart3, 
+    Lock, 
+    Bell, 
+    ChevronDown, 
+    LogOut, 
+    Settings 
+} from 'lucide-react';
 
 // --- Tipos de Dados ---
 type ManicureProfile = { id: string; name: string; };
@@ -35,7 +51,7 @@ export default function SchedulesPage() {
         avatarUrl: "https://placehold.co/100x100/E62E7A/FFFFFF?text=M"
     };
 
-    // Função de Busca de Horários
+    // Função de Busca de Horários (Usamos useCallback para otimização)
     const fetchSchedules = useCallback(async (id: string) => {
         setError(null);
         try {
@@ -51,12 +67,10 @@ export default function SchedulesPage() {
         } catch (e: any) {
             setError('Falha ao carregar horários: ' + e.message);
             console.error(e);
-        } finally {
-            setIsLoading(false);
-        }
+        } 
     }, []);
-
-    // 1. CARREGAMENTO E AUTORIZAÇÃO
+    
+    // 1. CARREGAMENTO E AUTORIZAÇÃO (CORREÇÃO DE ESCOPO)
     useEffect(() => {
         async function checkAuthAndLoadProfile() {
             const { data: { user } } = await supabase.auth.getUser();
@@ -78,16 +92,17 @@ export default function SchedulesPage() {
             }
 
             setManicureProfile({ id: profile.id, name: profile.name });
-            fetchSchedules(user.id);
+            await fetchSchedules(user.id);
+            setIsLoading(false); // Movemos o setIsLoading(false) para dentro do escopo seguro
         }
-        checkAuthAndLoadProfile();
+        
+        checkAuthAndLoadProfile(); // CHAMA A FUNÇÃO AQUI (CORREÇÃO DE ESCOPO)
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
             if (event === 'SIGNED_OUT') router.replace('/');
         });
         return () => subscription.unsubscribe();
-    }, [router, fetchSchedules]);
-
+    }, [router, fetchSchedules]); // Dependência de fetchSchedules
 
     // Adicionar Novo Horário
     const handleAddSchedule = async (e: React.FormEvent) => {
@@ -132,6 +147,7 @@ export default function SchedulesPage() {
     // Remover Horário
     const handleDeleteSchedule = async (id: number) => {
         // NOTA: substitua alert/confirm por um modal customizado no futuro
+        // Usamos confirm aqui para agilizar, mas deve ser um Modal na UX final.
         if (!manicureProfile || !confirm('Tem certeza que deseja excluir este horário?')) return;
         
         setIsSaving(true);
@@ -289,7 +305,7 @@ export default function SchedulesPage() {
     );
 }
 
-// Reutiliza o componente Header para manter a navegação (necessário para o TS)
+// Reutiliza o componente Header
 function Header({ user }: any) {
     const router = useRouter();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -334,14 +350,17 @@ function Header({ user }: any) {
                                 <Users className="inline-block w-5 h-5 mr-1" />
                                 Clientes
                             </a>
-                             {/* LINK DE HORÁRIOS */}
-                             <a href="/schedules" 
+                             <a href="/services" 
+                                className={`font-medium px-1 py-2 text-sm transition ${isActive('/services') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
+                                <Briefcase className="inline-block w-5 h-5 mr-1" />
+                                Serviços
+                            </a>
+                            <a href="/schedules" 
                                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/schedules') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
                                 <Clock className="inline-block w-5 h-5 mr-1" />
                                 Horários
                             </a>
-                             {/* LINK DE RELATÓRIOS (FEATURE) */}
-                            <a href="#" 
+                             <a href="#" 
                                 className={`font-medium px-1 py-2 text-sm transition text-gray-400 cursor-not-allowed`}
                                 title="Recurso em desenvolvimento"
                             >

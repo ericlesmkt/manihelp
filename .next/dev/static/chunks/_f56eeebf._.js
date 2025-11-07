@@ -350,7 +350,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$supabaseClient$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/lib/supabaseClient.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ClientList$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/components/ClientList.tsx [app-client] (ecmascript)");
-// Adicionado Clock e Lock para navegação completa
+// Ícones COMPLETOS para a navegação
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/loader-2.js [app-client] (ecmascript) <export default as Loader2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/users.js [app-client] (ecmascript) <export default as Users>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$calendar$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Calendar$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/calendar.js [app-client] (ecmascript) <export default as Calendar>");
@@ -361,6 +361,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$bell$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Bell$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/bell.js [app-client] (ecmascript) <export default as Bell>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/clock.js [app-client] (ecmascript) <export default as Clock>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$lock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Lock$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/lock.js [app-client] (ecmascript) <export default as Lock>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$briefcase$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Briefcase$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/briefcase.js [app-client] (ecmascript) <export default as Briefcase>");
 ;
 var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
 "use client";
@@ -394,7 +395,6 @@ function Header({ user }) {
             loadProfileName();
         }
     }["Header.useEffect"], []);
-    // CORREÇÃO: Função para determinar se o link está ativo
     const isActive = (path)=>("TURBOPACK compile-time value", "object") !== 'undefined' && window.location.pathname === path;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("header", {
         className: "bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10",
@@ -411,7 +411,7 @@ function Header({ user }) {
                                 children: "ManiHelp"
                             }, void 0, false, {
                                 fileName: "[project]/app/clients/page.tsx",
-                                lineNumber: 55,
+                                lineNumber: 66,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -425,14 +425,14 @@ function Header({ user }) {
                                                 className: "inline-block w-5 h-5 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/clients/page.tsx",
-                                                lineNumber: 59,
+                                                lineNumber: 70,
                                                 columnNumber: 33
                                             }, this),
                                             "Agenda"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/clients/page.tsx",
-                                        lineNumber: 57,
+                                        lineNumber: 68,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -443,15 +443,33 @@ function Header({ user }) {
                                                 className: "inline-block w-5 h-5 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/clients/page.tsx",
-                                                lineNumber: 64,
+                                                lineNumber: 75,
                                                 columnNumber: 33
                                             }, this),
                                             "Clientes"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/clients/page.tsx",
-                                        lineNumber: 62,
+                                        lineNumber: 73,
                                         columnNumber: 29
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                        href: "/services",
+                                        className: `font-medium px-1 py-2 text-sm transition ${isActive('/services') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$briefcase$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Briefcase$3e$__["Briefcase"], {
+                                                className: "inline-block w-5 h-5 mr-1"
+                                            }, void 0, false, {
+                                                fileName: "[project]/app/clients/page.tsx",
+                                                lineNumber: 81,
+                                                columnNumber: 33
+                                            }, this),
+                                            "Serviços"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/app/clients/page.tsx",
+                                        lineNumber: 79,
+                                        columnNumber: 30
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                                         href: "/schedules",
@@ -461,15 +479,15 @@ function Header({ user }) {
                                                 className: "inline-block w-5 h-5 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/clients/page.tsx",
-                                                lineNumber: 70,
+                                                lineNumber: 87,
                                                 columnNumber: 33
                                             }, this),
                                             "Horários"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/clients/page.tsx",
-                                        lineNumber: 68,
-                                        columnNumber: 30
+                                        lineNumber: 85,
+                                        columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                                         href: "#",
@@ -480,33 +498,33 @@ function Header({ user }) {
                                                 className: "inline-block w-5 h-5 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/clients/page.tsx",
-                                                lineNumber: 78,
+                                                lineNumber: 95,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$lock$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Lock$3e$__["Lock"], {
                                                 className: "inline-block w-4 h-4 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/app/clients/page.tsx",
-                                                lineNumber: 79,
+                                                lineNumber: 96,
                                                 columnNumber: 33
                                             }, this),
                                             "Relatórios"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/clients/page.tsx",
-                                        lineNumber: 74,
+                                        lineNumber: 91,
                                         columnNumber: 29
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/clients/page.tsx",
-                                lineNumber: 56,
+                                lineNumber: 67,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/clients/page.tsx",
-                        lineNumber: 54,
+                        lineNumber: 65,
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -519,20 +537,20 @@ function Header({ user }) {
                                         className: "w-6 h-6"
                                     }, void 0, false, {
                                         fileName: "[project]/app/clients/page.tsx",
-                                        lineNumber: 87,
+                                        lineNumber: 104,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "absolute top-0 right-0 block h-2 w-2 rounded-full bg-mani-pink-500 ring-2 ring-white"
                                     }, void 0, false, {
                                         fileName: "[project]/app/clients/page.tsx",
-                                        lineNumber: 88,
+                                        lineNumber: 105,
                                         columnNumber: 29
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/clients/page.tsx",
-                                lineNumber: 86,
+                                lineNumber: 103,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -547,20 +565,20 @@ function Header({ user }) {
                                                 children: manicureName
                                             }, void 0, false, {
                                                 fileName: "[project]/app/clients/page.tsx",
-                                                lineNumber: 93,
+                                                lineNumber: 110,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                 className: `w-4 h-4 text-gray-500 transition-transform ${menuOpen ? 'rotate-180' : ''}`
                                             }, void 0, false, {
                                                 fileName: "[project]/app/clients/page.tsx",
-                                                lineNumber: 94,
+                                                lineNumber: 111,
                                                 columnNumber: 33
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/clients/page.tsx",
-                                        lineNumber: 92,
+                                        lineNumber: 109,
                                         columnNumber: 29
                                     }, this),
                                     menuOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -574,14 +592,14 @@ function Header({ user }) {
                                                         className: "inline-block w-4 h-4 mr-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/clients/page.tsx",
-                                                        lineNumber: 99,
+                                                        lineNumber: 116,
                                                         columnNumber: 41
                                                     }, this),
                                                     "Configurações"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/clients/page.tsx",
-                                                lineNumber: 98,
+                                                lineNumber: 115,
                                                 columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -592,48 +610,48 @@ function Header({ user }) {
                                                         className: "inline-block w-4 h-4 mr-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/app/clients/page.tsx",
-                                                        lineNumber: 103,
+                                                        lineNumber: 120,
                                                         columnNumber: 41
                                                     }, this),
                                                     "Sair"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/app/clients/page.tsx",
-                                                lineNumber: 102,
+                                                lineNumber: 119,
                                                 columnNumber: 37
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/app/clients/page.tsx",
-                                        lineNumber: 97,
+                                        lineNumber: 114,
                                         columnNumber: 33
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/clients/page.tsx",
-                                lineNumber: 91,
+                                lineNumber: 108,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/clients/page.tsx",
-                        lineNumber: 85,
+                        lineNumber: 102,
                         columnNumber: 21
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/clients/page.tsx",
-                lineNumber: 53,
+                lineNumber: 64,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/app/clients/page.tsx",
-            lineNumber: 52,
+            lineNumber: 63,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/app/clients/page.tsx",
-        lineNumber: 51,
+        lineNumber: 62,
         columnNumber: 9
     }, this);
 }
@@ -648,7 +666,7 @@ function ClientsPage() {
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
     const [manicureProfile, setManicureProfile] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
-    // Simula o mockUser do Dashboard (usado para o Header)
+    // Simula o mockUser do Dashboard
     const mockUser = {
         name: "Dona Maria",
         avatarUrl: "https://placehold.co/100x100/E62E7A/FFFFFF?text=M"
@@ -697,7 +715,7 @@ function ClientsPage() {
                     className: "w-8 h-8 text-mani-pink-600 animate-spin"
                 }, void 0, false, {
                     fileName: "[project]/app/clients/page.tsx",
-                    lineNumber: 168,
+                    lineNumber: 185,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -705,13 +723,13 @@ function ClientsPage() {
                     children: "Carregando perfil..."
                 }, void 0, false, {
                     fileName: "[project]/app/clients/page.tsx",
-                    lineNumber: 169,
+                    lineNumber: 186,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/app/clients/page.tsx",
-            lineNumber: 167,
+            lineNumber: 184,
             columnNumber: 13
         }, this);
     }
@@ -722,7 +740,7 @@ function ClientsPage() {
                 user: mockUser
             }, void 0, false, {
                 fileName: "[project]/app/clients/page.tsx",
-                lineNumber: 176,
+                lineNumber: 193,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -738,14 +756,14 @@ function ClientsPage() {
                                         className: "w-7 h-7 mr-3 text-mani-pink-600"
                                     }, void 0, false, {
                                         fileName: "[project]/app/clients/page.tsx",
-                                        lineNumber: 182,
+                                        lineNumber: 199,
                                         columnNumber: 25
                                     }, this),
                                     "Seus Clientes"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/app/clients/page.tsx",
-                                lineNumber: 181,
+                                lineNumber: 198,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -753,13 +771,13 @@ function ClientsPage() {
                                 children: "Gerencie a base de clientes do ManiHelp."
                             }, void 0, false, {
                                 fileName: "[project]/app/clients/page.tsx",
-                                lineNumber: 185,
+                                lineNumber: 202,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/app/clients/page.tsx",
-                        lineNumber: 180,
+                        lineNumber: 197,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -768,24 +786,24 @@ function ClientsPage() {
                             manicureId: manicureProfile.id
                         }, void 0, false, {
                             fileName: "[project]/app/clients/page.tsx",
-                            lineNumber: 191,
+                            lineNumber: 208,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/app/clients/page.tsx",
-                        lineNumber: 190,
+                        lineNumber: 207,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/app/clients/page.tsx",
-                lineNumber: 178,
+                lineNumber: 195,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/clients/page.tsx",
-        lineNumber: 175,
+        lineNumber: 192,
         columnNumber: 9
     }, this);
 }

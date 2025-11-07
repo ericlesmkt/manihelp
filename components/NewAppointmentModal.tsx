@@ -1,9 +1,11 @@
 // Nome do arquivo: components/NewAppointmentModal.tsx
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { X, CalendarCheck, Clock, User, Briefcase, Phone, Loader2, Plus, Users } from 'lucide-react';
+import React, { useState, useEffect, useCallback, forwardRef } from 'react';
+// Ícones (sem DatePicker)
+import { X, CalendarCheck, Clock, User, Briefcase, Phone, Loader2, Users, ChevronDown } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
+// REMOVIDO: import DatePicker, date-fns, etc.
 
 // --- Tipos de Dados ---
 type Profile = {
@@ -18,20 +20,16 @@ type Service = {
   duration_minutes: number;
 };
 
-// clientCreationMode gerencia se estamos buscando um cliente existente ou criando um novo
 type ClientMode = 'existing' | 'new';
 
-// Campos do Formulário
 type AppointmentFormData = {
-  // client_id é o ID real do profile, ou o ID gerado na hora
   client_id: string; 
   service_id: string; 
-  start_time: string; 
+  start_time: string; // String do input datetime-local
   manicure_id: string; 
   
-  // Campos para Novo Cliente (temporários no estado)
   newClientName: string;
-  newClientPhone: string;
+  newClientPhone: string; // Armazena o telefone formatado
 };
 
 // --- Propriedades do Modal ---
@@ -45,17 +43,29 @@ interface NewAppointmentModalProps {
 const initialFormData: AppointmentFormData = {
   client_id: '',
   service_id: '', 
-  start_time: '',
+  start_time: '', 
   manicure_id: '',
   newClientName: '',
   newClientPhone: '',
 };
 
+// --- FUNÇÃO DE MÁSCARA (Mantida) ---
+const maskPhoneNumber = (value: string) => {
+  if (!value) return "";
+  value = value.replace(/\D/g, ""); 
+  if (value.length > 11) value = value.substring(0, 11);
+  value = value.replace(/^(\d{2})(\d)/g, "($1) $2");
+  value = value.replace(/(\d{5})(\d)/, "$1-$2");
+  return value;
+};
+
+
 export default function NewAppointmentModal({ isOpen, onClose, manicureId, onAppointmentCreated }: NewAppointmentModalProps) {
   const [formData, setFormData] = useState<AppointmentFormData>({ ...initialFormData, manicure_id: manicureId });
   const [clients, setClients] = useState<Profile[]>([]);
   const [services, setServices] = useState<Service[]>([]);
-  const [clientMode, setClientMode] = useState<ClientMode>('existing'); // NOVO ESTADO
+  const [clientMode, setClientMode] = useState<ClientMode>('existing');
+  // REMOVIDO: [selectedDate, setSelectedDate]
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
@@ -65,14 +75,12 @@ export default function NewAppointmentModal({ isOpen, onClose, manicureId, onApp
     setIsLoading(true);
     setError(null);
     try {
-      // Busca TODOS os perfis com role 'client'
       const { data: clientData, error: clientError } = await supabase
         .from('profiles')
         .select('id, name')
         .eq('role', 'client')
-        .order('name', { ascending: true }); // Ordena por nome
+        .order('name', { ascending: true }); 
       
-      // Busca Serviços
       const { data: serviceData, error: serviceError } = await supabase
         .from('services')
         .select('id, name, price, duration_minutes')
@@ -81,110 +89,116 @@ export default function NewAppointmentModal({ isOpen, onClose, manicureId, onApp
       if (clientError || serviceError) {
         throw new Error(clientError?.message || serviceError?.message);
       }
-
       setClients(clientData || []);
       setServices(serviceData || []);
-
     } catch (e: any) {
       console.error('Erro ao carregar dados:', e);
-      setError('Falha ao carregar clientes ou serviços. Verifique a conexão com o Supabase e RLS.');
+      setError('Falha ao carregar clientes ou serviços.');
     } finally {
       setIsLoading(false);
     }
   }, [manicureId]);
 
-  // Função para criar um novo perfil de cliente (sem Auth)
-  const createNewClient = async (name: string, phone: string) => {
-    // Cria um ID único para o cliente não-logado
-    const tempId = crypto.randomUUID(); 
-    
-    const { data, error: insertError } = await supabase
-      .from('profiles')
-      .insert({ 
-        id: tempId, 
-        name: name, 
-        phone_number: phone, 
-        role: 'client' 
-      })
-      .select('id')
-      .single();
-
-    if (insertError) {
-      throw new Error(`Falha ao criar novo cliente: ${insertError.message}`);
-    }
-    
-    // Retorna o ID gerado
-    return data.id; 
-  };
-
-
+  // REMOVIDO: createNewClient (agora é createGuestAppointment)
+  
   useEffect(() => {
     if (isOpen) {
       fetchData();
-      // Reseta o modo e o formulário
       setClientMode('existing'); 
       setFormData({ ...initialFormData, manicure_id: manicureId }); 
+      // REMOVIDO: setSelectedDate
     }
   }, [isOpen, fetchData, manicureId]);
 
-  // Manipulação de Mudanças no Formulário
+  // Manipulador genérico
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Função de Submissão do Formulário
+  // Manipulador da máscara
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const maskedValue = maskPhoneNumber(e.target.value);
+      setFormData(prev => ({ ...prev, newClientPhone: maskedValue }));
+  };
+  
+
+  // --- SUBMIT CORRIGIDO ---
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSaving(true);
     setError(null);
     
-    let finalClientId = formData.client_id;
+    // Objeto base do agendamento
+    let appointmentPayload: any = {
+      manicure_id: formData.manicure_id,
+      status: 'pending' as const,
+    };
     
     try {
-      // PASSO 1: TRATAR NOVO CLIENTE
+      // 1. Validação de Data/Serviço
+      if (!formData.start_time || !formData.service_id) {
+          setError('Serviço e Data/Hora são obrigatórios.');
+          setIsSaving(false);
+          return;
+      }
+      
+      const serviceIdNumber = Number(formData.service_id);
+      const selectedService = services.find(s => s.id === serviceIdNumber);
+      if (!selectedService) throw new Error("Serviço inválido.");
+
+      const startTime = new Date(formData.start_time);
+      const endTime = new Date(startTime.getTime() + selectedService.duration_minutes * 60000);
+      
+      appointmentPayload = {
+          ...appointmentPayload,
+          service_id: serviceIdNumber, 
+          start_time: startTime.toISOString(), 
+          end_time: endTime.toISOString(),
+      };
+
+      // 2. Validação de Cliente (Convidado ou Existente)
       if (clientMode === 'new') {
         if (!formData.newClientName || !formData.newClientPhone) {
           setError('Nome e Telefone são obrigatórios para novos clientes.');
           setIsSaving(false);
           return;
         }
-        // Cria o cliente e obtém o ID
-        finalClientId = await createNewClient(formData.newClientName, formData.newClientPhone);
+        
+        const cleanPhone = formData.newClientPhone.replace(/\D/g, "");
+        if (cleanPhone.length !== 11) {
+            setError('O Telefone deve ter 11 dígitos (DDD + 9 dígitos).');
+            setIsSaving(false);
+            return;
+        }
+
+        // Salva como Convidado
+        appointmentPayload = {
+            ...appointmentPayload,
+            client_id: null, // Nulo, pois não tem perfil
+            guest_name: formData.newClientName,
+            guest_phone: cleanPhone, // Salva o telefone limpo
+        };
+
+      } else {
+        if (!formData.client_id) {
+            setError('Selecione um cliente existente.');
+            setIsSaving(false);
+            return;
+        }
+        // Salva com o Perfil existente
+        appointmentPayload = {
+            ...appointmentPayload,
+            client_id: formData.client_id,
+            guest_name: null,
+            guest_phone: null,
+        };
       }
       
-      // PASSO 2: VALIDAÇÃO FINAL
-      if (!finalClientId || !formData.service_id || !formData.start_time) {
-        setError('Por favor, preencha todos os campos obrigatórios.');
-        setIsSaving(false);
-        return;
-      }
-
-      const serviceIdNumber = Number(formData.service_id);
-      const selectedService = services.find(s => s.id === serviceIdNumber);
-      
-      if (!selectedService || isNaN(serviceIdNumber)) {
-        setError('Serviço inválido ou não selecionado.');
-        setIsSaving(false);
-        return;
-      }
-
-      // PASSO 3: CÁLCULO E SALVAMENTO
-      const startTime = new Date(formData.start_time);
-      const endTime = new Date(startTime.getTime() + selectedService.duration_minutes * 60000); 
-
-      const newAppointment = {
-        client_id: finalClientId, // ID do cliente (existente ou novo)
-        manicure_id: formData.manicure_id,
-        service_id: serviceIdNumber, 
-        start_time: startTime.toISOString(),
-        end_time: endTime.toISOString(),
-        status: 'pending' as const, // Começa como PENDENTE
-      };
-
+      // 3. Inserção no Banco
       const { error: insertError } = await supabase
         .from('appointments')
-        .insert([newAppointment]);
+        .insert([appointmentPayload]);
 
       if (insertError) {
         throw new Error(insertError.message);
@@ -205,7 +219,8 @@ export default function NewAppointmentModal({ isOpen, onClose, manicureId, onApp
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 transition-opacity duration-300">
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-[100] transition-opacity duration-300">
+      {/* REMOVIDO: Bloco <style> do DatePicker */}
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 transform transition-all duration-300 scale-100">
         
         {/* Header do Modal */}
@@ -247,7 +262,7 @@ export default function NewAppointmentModal({ isOpen, onClose, manicureId, onApp
                     onClick={() => setClientMode('new')}
                     className={`flex-1 px-4 py-2 text-sm font-semibold rounded-lg transition ${clientMode === 'new' ? 'bg-mani-pink-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                 >
-                    Novo Cliente
+                    Novo Cliente (Convidado)
                 </button>
              </div>
           </div>
@@ -294,7 +309,7 @@ export default function NewAppointmentModal({ isOpen, onClose, manicureId, onApp
               <div>
                 <label htmlFor="newClientName" className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                   <User className="w-4 h-4 mr-1 text-mani-pink-600" />
-                  Nome do Cliente
+                  Nome do Cliente (Convidado)
                 </label>
                 <input
                   type="text"
@@ -308,7 +323,7 @@ export default function NewAppointmentModal({ isOpen, onClose, manicureId, onApp
                 />
               </div>
               
-              {/* Telefone do Cliente */}
+              {/* Telefone do Cliente (COM MÁSCARA) */}
               <div>
                 <label htmlFor="newClientPhone" className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                   <Phone className="w-4 h-4 mr-1 text-mani-pink-600" />
@@ -319,7 +334,8 @@ export default function NewAppointmentModal({ isOpen, onClose, manicureId, onApp
                   id="newClientPhone"
                   name="newClientPhone"
                   value={formData.newClientPhone}
-                  onChange={handleChange}
+                  onChange={handlePhoneChange} 
+                  maxLength={15} 
                   placeholder="(99) 99999-9999"
                   className="mt-1 block w-full py-3 px-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-mani-pink-500 focus:border-mani-pink-500 sm:text-sm"
                   required
@@ -349,18 +365,18 @@ export default function NewAppointmentModal({ isOpen, onClose, manicureId, onApp
                 ) : (
                   services.map(service => (
                     <option key={service.id} value={String(service.id)}>
-                      {service.name} (R$ {service.price.toFixed(2)} / {service.duration_minutes} min)
+                      {service.name}
                     </option>
                   ))
                 )}
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                <ChevronDown className="w-4 h-4 text-gray-400" />
+                  <ChevronDown className="w-4 h-4 text-gray-400" />
+                </div>
               </div>
-            </div>
           </div>
 
-          {/* Data e Hora (Comum aos dois modos) */}
+          {/* Data e Hora (REVERTIDO PARA HTML PADRÃO) */}
           <div>
             <label htmlFor="start_time" className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
               <Clock className="w-4 h-4 mr-1 text-mani-pink-600" />
@@ -374,6 +390,7 @@ export default function NewAppointmentModal({ isOpen, onClose, manicureId, onApp
               onChange={handleChange}
               disabled={isSaving}
               required
+              // Estilo ajustado para ser mais amigável
               className="mt-1 block w-full py-3 px-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-mani-pink-500 focus:border-mani-pink-500 sm:text-sm"
             />
           </div>
@@ -406,14 +423,5 @@ export default function NewAppointmentModal({ isOpen, onClose, manicureId, onApp
         </form>
       </div>
     </div>
-  );
-}
-
-// Ícone para dropdown
-function ChevronDown(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" {...props}>
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-    </svg>
   );
 }

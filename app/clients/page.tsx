@@ -5,8 +5,20 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../lib/supabaseClient';
 import ClientList from '../../components/ClientList';
-// Adicionado Clock e Lock para navegação completa
-import { Loader2, Users, Calendar, LogOut, ChevronDown, BarChart3, Settings, Bell, Clock, Lock } from 'lucide-react';
+// Ícones COMPLETOS para a navegação
+import { 
+    Loader2, 
+    Users, 
+    Calendar, 
+    LogOut, 
+    ChevronDown, 
+    BarChart3, 
+    Settings, 
+    Bell, 
+    Clock, 
+    Lock,
+    Briefcase
+} from 'lucide-react';
 
 // --- Tipos ---
 type ManicureProfile = {
@@ -43,7 +55,6 @@ function Header({ user }: any) {
         loadProfileName();
     }, []);
     
-    // CORREÇÃO: Função para determinar se o link está ativo
     const isActive = (path: string) => typeof window !== 'undefined' && window.location.pathname === path;
 
 
@@ -64,8 +75,14 @@ function Header({ user }: any) {
                                 <Users className="inline-block w-5 h-5 mr-1" />
                                 Clientes
                             </a>
+                            {/* NOVO LINK DE SERVIÇOS */}
+                             <a href="/services" 
+                                className={`font-medium px-1 py-2 text-sm transition ${isActive('/services') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
+                                <Briefcase className="inline-block w-5 h-5 mr-1" />
+                                Serviços
+                            </a>
                             {/* NOVO LINK DE HORÁRIOS */}
-                             <a href="/schedules" 
+                            <a href="/schedules" 
                                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/schedules') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
                                 <Clock className="inline-block w-5 h-5 mr-1" />
                                 Horários
@@ -120,7 +137,7 @@ export default function ClientsPage() {
     const [manicureProfile, setManicureProfile] = useState<ManicureProfile | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     
-    // Simula o mockUser do Dashboard (usado para o Header)
+    // Simula o mockUser do Dashboard
     const mockUser = {
         name: "Dona Maria",
         avatarUrl: "https://placehold.co/100x100/E62E7A/FFFFFF?text=M"

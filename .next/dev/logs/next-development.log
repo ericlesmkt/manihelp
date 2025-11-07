@@ -1,20 +1,380 @@
-[00:00:00.854] Server  LOG      ✓ Ready in 589ms
-[00:00:49.782] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:59.625] Browser ERROR   Erro de autenticação: {}
-[00:01:04.701] Browser ERROR   Erro de autenticação: {}
-[00:04:57.021] Server  LOG      ✓ Compiled in 73ms
-[00:05:19.931] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:09:15.297] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:13:53.434] Server  LOG      ✓ Compiled in 173ms
-[00:14:07.869] Server  LOG      ✓ Compiled in 186ms
-[00:14:46.632] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:14:52.438] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:14:56.037] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:14:56.906] Browser ERROR   uncaughtError: ReferenceError: Users is not defined
-[00:16:03.778] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[00:16:03.786] Server  LOG      ✓ Compiled in 123ms
-[00:16:04.123] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:20:04.061] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:20:07.683] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:20:09.951] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:20:19.494] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:00.782] Server  LOG      ✓ Ready in 520ms
+[00:00:03.319] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:10.889] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:13.037] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:18.063] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:18.191] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <RedirectBoundary>
+      <RedirectErrorBoundary router={{...}}>
+        <InnerLayoutRouter url="/dashboard" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} segmentPath={[...]} ...>
+          <SegmentViewNode type="page" pagePath="dashboard/...">
+            <SegmentTrieNode>
+            <ClientPageRoot Component={function DashboardPage} serverProvidedParams={{...}}>
+              <DashboardPage params={Promise} searchParams={Promise}>
+                <div className="min-h-scre...">
+                  <Header user={{name:"Dona...", ...}}>
+                    <header className="bg-white s...">
+                      <div className="max-w-7xl ...">
+                        <div className="flex justi...">
+                          <div className="flex items...">
+                            <h1>
+                            <nav className="hidden md:...">
+                              <a
+                                href="/dashboard"
++                               className="font-medium px-1 py-2 text-sm transition text-mani-pink-600 border-b-2 bord..."
+-                               className="font-medium px-1 py-2 text-sm transition text-gray-500 hover:text-gray-700"
+                              >
+                              ...
+                          ...
+          ...
+        ...
+
+[00:03:04.747] Server  LOG      ✓ Compiled in 159ms
+[00:03:39.315] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:42.149] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:48.482] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:51.550] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:54.898] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:00.037] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:32.077] Server  LOG      ✓ Compiled in 122ms
+[00:09:32.479] Browser ERROR   ./app/dashboard/page.tsx:60:10
+Ecmascript file had an error
+  58 | // --- Componente: NotificationBell (Requerido pelo Header) ---
+  59 | // Colocando aqui para garantir que o Header funcione
+> 60 | function NotificationBell({ manicureId }: { manicureId: string }) {
+     |          ^^^^^^^^^^^^^^^^
+  61 |     const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  62 |     const [isOpen, setIsOpen] = useState(false);
+  63 |     const unreadCount = notifications.filter(n => !n.is_read).length;
+
+the name `NotificationBell` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[00:09:32.480] Browser ERROR   ./app/dashboard/page.tsx:60:10
+Ecmascript file had an error
+  58 | // --- Componente: NotificationBell (Requerido pelo Header) ---
+  59 | // Colocando aqui para garantir que o Header funcione
+> 60 | function NotificationBell({ manicureId }: { manicureId: string }) {
+     |          ^^^^^^^^^^^^^^^^
+  61 |     const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  62 |     const [isOpen, setIsOpen] = useState(false);
+  63 |     const unreadCount = notifications.filter(n => !n.is_read).length;
+
+the name `NotificationBell` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[00:10:27.478] Browser ERROR   ./app/dashboard/page.tsx:60:10
+Ecmascript file had an error
+  58 | // --- Componente: NotificationBell (Requerido pelo Header) ---
+  59 | // Colocando aqui para garantir que o Header funcione
+> 60 | function NotificationBell({ manicureId }: { manicureId: string }) {
+     |          ^^^^^^^^^^^^^^^^
+  61 |     const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  62 |     const [isOpen, setIsOpen] = useState(false);
+  63 |     const unreadCount = notifications.filter(n => !n.is_read).length;
+
+the name `NotificationBell` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[00:10:27.478] Browser ERROR   ./app/dashboard/page.tsx:60:10
+Ecmascript file had an error
+  58 | // --- Componente: NotificationBell (Requerido pelo Header) ---
+  59 | // Colocando aqui para garantir que o Header funcione
+> 60 | function NotificationBell({ manicureId }: { manicureId: string }) {
+     |          ^^^^^^^^^^^^^^^^
+  61 |     const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  62 |     const [isOpen, setIsOpen] = useState(false);
+  63 |     const unreadCount = notifications.filter(n => !n.is_read).length;
+
+the name `NotificationBell` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[00:11:01.479] Browser ERROR   ./app/dashboard/page.tsx:60:10
+Ecmascript file had an error
+  58 | // --- Componente: NotificationBell (Requerido pelo Header) ---
+  59 | // Colocando aqui para garantir que o Header funcione
+> 60 | function NotificationBell({ manicureId }: { manicureId: string }) {
+     |          ^^^^^^^^^^^^^^^^
+  61 |     const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  62 |     const [isOpen, setIsOpen] = useState(false);
+  63 |     const unreadCount = notifications.filter(n => !n.is_read).length;
+
+the name `NotificationBell` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[00:11:01.480] Browser ERROR   ./app/dashboard/page.tsx:60:10
+Ecmascript file had an error
+  58 | // --- Componente: NotificationBell (Requerido pelo Header) ---
+  59 | // Colocando aqui para garantir que o Header funcione
+> 60 | function NotificationBell({ manicureId }: { manicureId: string }) {
+     |          ^^^^^^^^^^^^^^^^
+  61 |     const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  62 |     const [isOpen, setIsOpen] = useState(false);
+  63 |     const unreadCount = notifications.filter(n => !n.is_read).length;
+
+the name `NotificationBell` is defined multiple times
+
+Import traces:
+  Client Component Browser:
+    ./app/dashboard/page.tsx [Client Component Browser]
+    ./app/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/dashboard/page.tsx [Client Component SSR]
+    ./app/dashboard/page.tsx [Server Component]
+[00:11:26.468] Server  LOG      ✓ Compiled in 157ms
+[00:11:35.606] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:11:36.591] Browser ERROR   uncaughtError: ReferenceError: BarChart3 is not defined
+[00:13:28.909] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:13:28.915] Server  LOG      ✓ Compiled in 216ms
+[00:13:29.372] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:13:30.486] Browser ERROR   uncaughtError: ReferenceError: checkAuthAndRole is not defined
+[00:13:33.343] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:13:33.463] Browser ERROR   uncaughtError: ReferenceError: checkAuthAndRole is not defined
+[00:14:32.186] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:14:32.203] Server  LOG      ✓ Compiled in 67ms
+[00:14:32.481] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:33.480] Browser ERROR   uncaughtError: ReferenceError: checkAuthAndRole is not defined
+[00:14:38.666] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:38.777] Browser ERROR   uncaughtError: ReferenceError: checkAuthAndRole is not defined
+[00:14:41.844] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:52.881] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:52.999] Browser ERROR   uncaughtError: ReferenceError: checkAuthAndRole is not defined
+[00:16:12.140] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:16.202] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:21.707] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:26.936] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:27.061] Browser ERROR   uncaughtError: ReferenceError: checkAuthAndRole is not defined
+[00:16:44.201] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:46.304] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:46.416] Browser ERROR   uncaughtError: ReferenceError: checkAuthAndRole is not defined
+[00:17:18.880] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:17:20.823] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:17:35.413] Browser ERROR   Received NaN for the `%s` attribute. If this is expected, cast the value to a string. value
+[00:19:02.442] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:19:07.175] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:19:13.145] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:19:16.039] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:19:19.191] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:10.095] Server  LOG      ✓ Compiled in 112ms
+[00:20:15.875] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:18.732] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:20:20.233] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:24:29.624] Server  LOG      ✓ Compiled in 88ms
+[00:25:24.161] Server  LOG      ✓ Compiled in 141ms
+[00:25:46.806] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:25:50.900] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:26:00.873] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:29:04.243] Server  LOG      ✓ Compiled in 572ms
+[00:29:13.732] Browser ERROR   uncaughtError: ReferenceError: ChevronDown is not defined
+[00:30:06.140] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:30:06.145] Server  LOG      ✓ Compiled in 107ms
+[00:30:06.610] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:30:34.898] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:31:46.470] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:32:06.762] Server  LOG      ✓ Compiled in 145ms
+[00:32:10.526] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:32:37.584] Browser ERROR   Erro ao salvar agendamento: {}
+[00:40:12.781] Browser ERROR   Erro ao salvar agendamento: {}
+[00:40:14.232] Browser ERROR   Erro ao salvar agendamento: {}
+[00:40:16.139] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:40:35.318] Browser ERROR   Erro ao salvar agendamento: {}
+[00:41:18.176] Browser ERROR   Erro ao salvar agendamento: {}
+[00:41:19.282] Browser ERROR   Erro ao salvar agendamento: {}
+[00:41:19.932] Browser ERROR   Erro ao salvar agendamento: {}
+[07:36:17.255] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[07:36:21.475] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[07:36:35.440] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[07:37:07.398] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[07:38:01.541] Browser ERROR   Erro ao salvar agendamento: {}
+[07:40:41.640] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[07:41:10.449] Browser ERROR   Erro ao salvar agendamento: {}
+[07:43:46.289] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[07:43:48.967] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[07:43:54.869] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[07:43:56.950] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[07:44:01.882] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[07:45:02.011] Browser ERROR   Erro ao salvar agendamento: {}
+[07:58:18.824] Server  LOG      ✓ Compiled in 352ms
+[07:58:50.578] Server  LOG      ✓ Compiled in 81ms
+[07:59:18.622] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:00:00.175] Browser ERROR   Erro ao salvar agendamento: {}
+[08:02:18.717] Server  LOG      ✓ Compiled in 145ms
+[08:03:03.256] Browser ERROR   Erro ao salvar agendamento: {}
+[08:05:43.748] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:07:38.449] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:07:42.244] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:07:44.910] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:07:48.510] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:10:26.416] Server  LOG      ✓ Compiled in 60ms
+[08:10:38.667] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:11:13.772] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:11:16.572] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:11:20.452] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:11:25.462] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:12:42.974] Server  LOG      ✓ Compiled in 110ms
+[08:13:05.068] Server  LOG      ✓ Compiled in 191ms
+[08:13:29.318] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:13:32.020] Browser ERROR   uncaughtError: ReferenceError: CalendarCheck is not defined
+[08:14:29.085] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[08:14:29.090] Server  LOG      ✓ Compiled in 83ms
+[08:14:29.480] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:14:42.561] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:17:16.720] Server  LOG      ✓ Compiled in 215ms
+[08:17:50.673] Server  LOG      ✓ Compiled in 86ms
+[08:21:00.014] Server  LOG      ✓ Compiled in 98ms
+[08:21:20.212] Server  LOG      ✓ Compiled in 57ms
+[08:21:29.774] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:23:33.860] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[08:25:26.750] Server  LOG      ✓ Compiled in 173ms
+[08:28:44.895] Server  LOG      ✓ Compiled in 78ms
+[08:28:59.095] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[25:55:23.291] Browser ERROR   {}
+[25:55:24.272] Browser ERROR   {}
+[25:55:24.272] Browser ERROR   {}
+[25:55:25.271] Browser ERROR   {}
+[25:55:25.271] Browser ERROR   {}
+[25:55:26.269] Browser ERROR   {}
+[25:55:26.275] Browser ERROR   {}
+[25:55:27.268] Browser ERROR   {}
+[26:12:13.629] Browser ERROR   {}
+[26:12:14.625] Browser ERROR   {}
+[26:12:16.624] Browser ERROR   {}
+[26:12:17.620] Browser ERROR   {}
+[26:12:17.624] Browser ERROR   {}
+[26:12:17.624] Browser ERROR   {}
+[26:29:57.395] Browser ERROR   {}
+[26:29:57.395] Browser ERROR   {}
+[26:29:58.399] Browser ERROR   {}
+[26:29:58.401] Browser ERROR   {}
+[26:45:09.176] Browser ERROR   {}
+[26:57:01.984] Browser ERROR   {}
+[26:57:01.984] Browser ERROR   {}
+[26:57:02.982] Browser ERROR   {}
+[26:57:02.982] Browser ERROR   {}
+[27:12:54.161] Browser ERROR   {}
+[27:12:55.157] Browser ERROR   {}
+[27:12:55.157] Browser ERROR   {}
+[27:12:56.157] Browser ERROR   {}
+[27:12:56.157] Browser ERROR   {}
+[27:27:55.970] Browser ERROR   {}
+[27:27:55.971] Browser ERROR   {}
+[27:27:56.965] Browser ERROR   {}
+[27:27:57.966] Browser ERROR   {}
+[27:43:52.765] Browser ERROR   {}
+[27:43:53.764] Browser ERROR   {}
+[27:43:53.766] Browser ERROR   {}
+[27:53:56.583] Browser ERROR   {}
+[27:53:56.598] Browser ERROR   {}
+[27:53:59.573] Browser ERROR   {}
+[27:53:59.574] Browser ERROR   {}
+[27:54:06.601] Browser ERROR   {}
+[27:54:07.560] Browser ERROR   {}
+[27:54:07.561] Browser ERROR   {}
+[27:54:08.559] Browser ERROR   {}
+[27:54:08.560] Browser ERROR   {}
+[27:54:09.559] Browser ERROR   {}
+[27:54:09.560] Browser ERROR   {}
+[27:54:10.560] Browser ERROR   {}
+[27:54:11.563] Browser ERROR   {}
+[27:54:12.560] Browser ERROR   {}
+[27:54:15.559] Browser ERROR   {}
+[27:54:16.571] Browser ERROR   {}
+[27:54:22.559] Browser ERROR   {}
+[27:54:23.559] Browser ERROR   {}
+[27:54:35.561] Browser ERROR   {}
+[27:54:35.565] Browser ERROR   {}
+[27:54:36.558] Browser ERROR   {}
+[27:54:36.559] Browser ERROR   {}
+[27:54:36.559] Browser ERROR   {}
+[27:54:37.559] Browser ERROR   {}
+[27:54:37.560] Browser ERROR   {}
+[27:54:38.559] Browser ERROR   {}
+[27:54:38.560] Browser ERROR   {}
+[27:54:39.560] Browser ERROR   {}
+[27:54:40.561] Browser ERROR   {}
+[27:54:41.559] Browser ERROR   {}
+[27:54:44.559] Browser ERROR   {}
+[27:54:45.559] Browser ERROR   {}
+[27:54:51.559] Browser ERROR   {}
+[27:54:52.559] Browser ERROR   {}
+[27:55:04.559] Browser ERROR   {}
+[27:55:04.559] Browser ERROR   {}
+[27:55:05.562] Browser ERROR   {}
+[27:55:05.563] Browser ERROR   {}
+[27:55:05.563] Browser ERROR   {}
+[27:55:06.565] Browser ERROR   {}
+[27:55:06.565] Browser ERROR   {}
+[27:55:07.559] Browser ERROR   {}
+[27:55:07.559] Browser ERROR   {}
+[27:55:08.562] Browser ERROR   {}
+[27:55:09.560] Browser ERROR   {}
+[27:55:10.560] Browser ERROR   {}
+[27:55:13.558] Browser ERROR   {}
+[27:55:14.560] Browser ERROR   {}
+[27:55:20.560] Browser ERROR   {}
+[27:55:21.559] Browser ERROR   {}
+[27:55:33.560] Browser ERROR   {}
+[27:55:33.560] Browser ERROR   {}
+[27:55:34.559] Browser ERROR   {}
+[27:55:34.560] Browser ERROR   {}
+[27:55:34.560] Browser ERROR   {}
+[27:55:35.559] Browser ERROR   {}
+[27:55:35.560] Browser ERROR   {}
+[27:55:36.562] Browser ERROR   {}
+[27:55:36.563] Browser ERROR   {}
+[27:55:37.560] Browser ERROR   {}
+[27:55:38.563] Browser ERROR   {}
+[27:55:39.648] Browser ERROR   {}
+[27:56:31.563] Browser ERROR   {}
+[27:56:35.560] Browser ERROR   {}
+[27:56:50.564] Browser ERROR   {}
+[27:57:10.575] Browser ERROR   {}
+[27:57:35.562] Browser ERROR   {}
