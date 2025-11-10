@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../lib/supabaseClient';
 import ClientList from '../../components/ClientList';
-// Ícones COMPLETOS para a navegação
+// ÍCONES ATUALIZADOS: Adicionado Briefcase, Clock, Lock
 import { 
     Loader2, 
     Users, 
@@ -26,7 +26,7 @@ type ManicureProfile = {
     name: string;
 };
 
-// Reutiliza o componente Header do Dashboard para manter a navegação
+// --- COMPONENTE HEADER ATUALIZADO ---
 function Header({ user }: any) {
     const router = useRouter();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -75,13 +75,13 @@ function Header({ user }: any) {
                                 <Users className="inline-block w-5 h-5 mr-1" />
                                 Clientes
                             </a>
-                            {/* NOVO LINK DE SERVIÇOS */}
+                            {/* LINK DE SERVIÇOS ADICIONADO */}
                              <a href="/services" 
                                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/services') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
                                 <Briefcase className="inline-block w-5 h-5 mr-1" />
                                 Serviços
                             </a>
-                            {/* NOVO LINK DE HORÁRIOS */}
+                            {/* LINK DE HORÁRIOS ADICIONADO */}
                             <a href="/schedules" 
                                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/schedules') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
                                 <Clock className="inline-block w-5 h-5 mr-1" />

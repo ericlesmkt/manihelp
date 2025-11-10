@@ -35,7 +35,7 @@ type ServiceItem = {
     description: string; // Adicionado
 };
 
-// --- Componente Header ---
+// --- Componente Header (Completo e Funcional) ---
 function Header({ user }: any) {
     const router = useRouter();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -130,6 +130,22 @@ function Header({ user }: any) {
         </header>
     );
 }
+
+// Manipulador de preço para criação (separado)
+const handlePriceChange = (value: string, setter: React.Dispatch<React.SetStateAction<any>>) => {
+    let priceValue = value;
+    priceValue = priceValue.replace(/[^\d.,]/g, ''); 
+    priceValue = priceValue.replace(',', '.'); 
+    setter(prev => ({ ...prev, price: priceValue }));
+};
+
+
+// Manipulador de mudança genérico
+const handleNewServiceChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>, setter: React.Dispatch<React.SetStateAction<any>>) => {
+    const { name, value } = e.target;
+    setter(prev => ({ ...prev, [name]: value }));
+};
+
 
 // --- Componente Principal ---
 export default function ServicesPage() {
@@ -307,19 +323,6 @@ export default function ServicesPage() {
         setEditingService(null);
         if (manicureProfile) fetchServices(manicureProfile.id); // Re-fetch para atualizar a lista
     };
-    
-    // Funções para controle do formulário de criação
-    const handleNewServiceChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setNewService(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleNewServicePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let value = e.target.value;
-        value = value.replace(/[^\d.,]/g, ''); // Permite apenas números, vírgula e ponto
-        value = value.replace(',', '.'); // Normaliza para ponto
-        setNewService(prev => ({ ...prev, price: value }));
-    };
 
 
     if (isLoading || !manicureProfile) {
@@ -378,7 +381,7 @@ export default function ServicesPage() {
                                 id="name"
                                 name="name"
                                 value={newService.name}
-                                onChange={handleNewServiceChange}
+                                onChange={(e) => handleNewServiceChange(e, setNewService)}
                                 required
                                 placeholder="Manicure Simples"
                                 className="mt-1 w-full py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-mani-pink-500 focus:border-mani-pink-500"
@@ -393,7 +396,7 @@ export default function ServicesPage() {
                                 id="price"
                                 name="price"
                                 value={newService.price}
-                                onChange={handleNewServicePriceChange}
+                                onChange={(e) => handlePriceChange(e.target.value, setNewService)}
                                 required
                                 inputMode="decimal"
                                 className="mt-1 w-full py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-mani-pink-500 focus:border-mani-pink-500"
@@ -409,7 +412,7 @@ export default function ServicesPage() {
                                 id="duration"
                                 name="duration"
                                 value={newService.duration}
-                                onChange={handleNewServiceChange}
+                                onChange={(e) => handleNewServiceChange(e, setNewService)}
                                 required
                                 min="5"
                                 className="mt-1 w-full py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-mani-pink-500 focus:border-mani-pink-500"
@@ -435,7 +438,7 @@ export default function ServicesPage() {
                                 id="description"
                                 name="description"
                                 value={newService.description}
-                                onChange={handleNewServiceChange}
+                                onChange={(e) => handleNewServiceChange(e, setNewService)}
                                 rows={2}
                                 className="mt-1 w-full py-2 px-3 border border-gray-300 rounded-lg shadow-sm focus:ring-mani-pink-500 focus:border-mani-pink-500 resize-none"
                                 placeholder="Detalhes do serviço para seus clientes (Ex: Incluso esfoliação)."

@@ -3,15 +3,11 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+// Ícones necessários (apenas para esta página)
 import { 
   Calendar, 
   Users, 
-  BarChart3, 
-  Settings, 
   Plus, 
-  Bell, 
-  ChevronDown, 
-  LogOut, 
   Check,
   Clock,
   Loader2,
@@ -20,36 +16,28 @@ import {
   DollarSign,
   CalendarCheck,
   ClipboardCheck,
-  Lock,
-  Briefcase, 
-  Trash2,
   Info 
 } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient'; 
 import NewAppointmentModal from '../../components/NewAppointmentModal';
-import NotificationBell from '../../components/NotificationBell'; 
 import AppointmentDetailModal from '../../components/AppointmentDetailModal'; 
+import ManicureHeader from '../../components/ManicureHeader'; // NOVO HEADER
 
-
-// --- Tipos de Dados (Baseados no seu esquema) ---
+// --- Tipos de Dados ---
 type ProfileData = { id: string; name: string; phone_number: string };
-// CORREÇÃO: Adicionado duration_minutes para ser consistente
 type ServiceData = { id: number; name: string; price: number; duration_minutes: number; }; 
-type NotificationItem = { id: number; message: string; is_read: boolean; created_at: string; type: string }; 
 
 type AppointmentItem = {
     id: number;
     start_time: string; 
     end_time: string;
     status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
-    // Colunas de Convidado
     guest_name: string | null; 
     guest_phone: string | null;
     notes: string | null;
-    override_price: number | null; // NOVO CAMPO
-    
+    override_price: number | null; 
     client_id: ProfileData[] | null; 
-    service_id: ServiceData[] | null; // Usará o ServiceData corrigido
+    service_id: ServiceData[] | null; 
 };
 
 type SummaryStat = {
@@ -58,136 +46,10 @@ type SummaryStat = {
   icon: React.ElementType;
 };
 
-// --- Dados Mockados (adaptados) ---
+// --- Dados Mockados ---
 const mockUser = {
   name: "Dona Maria",
   avatarUrl: "https://placehold.co/100x100/E62E7A/FFFFFF?text=M"
-};
-
-
-// --- Componente: Header (Ajustado para usar o Bell Component) ---
-function Header({ user, manicureId }: { user: { name: string, avatarUrl: string }, manicureId: string | null }) {
-  const router = useRouter();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [manicureName, setManicureName] = useState(user.name);
-
-  const handleSignOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-      router.replace('/'); 
-    }
-  };
-
-  useEffect(() => {
-    async function loadProfile() {
-      const { data: { user: authUser } } = await supabase.auth.getUser();
-      if (!authUser) return;
-      
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('name')
-        .eq('id', authUser.id)
-        .single();
-      
-      if (profile) {
-        setManicureName(profile.name);
-      }
-    }
-    loadProfile();
-  }, []);
-  
-  const isActive = (path: string) => typeof window !== 'undefined' && window.location.pathname === path;
-
-
-  return (
-    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-8">
-            <h1 className="text-2xl font-bold text-mani-pink-600">ManiHelp</h1>
-            <nav className="hidden md:flex space-x-6">
-              <a href="/dashboard" 
-                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/dashboard') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
-                <Calendar className="inline-block w-5 h-5 mr-1" />
-                Agenda
-              </a>
-              <a href="/clients" 
-                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/clients') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
-                <Users className="inline-block w-5 h-5 mr-1" />
-                Clientes
-              </a>
-              <a href="/services" 
-                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/services') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
-                <Briefcase className="inline-block w-5 h-5 mr-1" />
-                Serviços
-              </a>
-              <a href="/schedules" 
-                 className={`font-medium px-1 py-2 text-sm transition ${isActive('/schedules') ? 'text-mani-pink-600 border-b-2 border-mani-pink-600' : 'text-gray-500 hover:text-gray-700'}`}>
-                <Clock className="inline-block w-5 h-5 mr-1" />
-                Horários
-              </a>
-              <a href="#" 
-                 className={`font-medium px-1 py-2 text-sm transition text-gray-400 cursor-not-allowed`}
-                 title="Recurso em desenvolvimento"
-              >
-                <BarChart3 className="inline-block w-5 h-5 mr-1" />
-                <Lock className="inline-block w-4 h-4 mr-1" /> 
-                Relatórios
-              </a>
-            </nav>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            {/* COMPONENTE BELL ATIVO */}
-            {manicureId && <NotificationBell manicureId={manicureId} />} 
-
-            <div className="relative">
-              <button onClick={() => setMenuOpen(!menuOpen)} className="flex items-center space-x-2 rounded-full p-1 pr-2 hover:bg-gray-100">
-                <img 
-                  className="w-8 h-8 rounded-full object-cover" 
-                  src={user.avatarUrl}
-                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src="https://placehold.co/100x100/E62E7A/FFFFFF?text=M"; }}
-                />
-                <span className="hidden sm:inline font-medium text-sm text-gray-700">{manicureName}</span>
-                <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${menuOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {menuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-1 ring-1 ring-black ring-opacity-5 z-20">
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                    <Settings className="inline-block w-4 h-4 mr-2" />
-                    Configurações
-                  </a>
-                  <button onClick={handleSignOut} className="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                    <LogOut className="inline-block w-4 h-4 mr-2" />
-                    Sair
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-}
-
-
-// --- Funções Auxiliares de Dados (Atualizadas) ---
-const getClientName = (appt: AppointmentItem) => appt.client_id ? appt.client_id[0]?.name : appt.guest_name || 'Cliente (Convidado)';
-const getServiceName = (appt: AppointmentItem) => appt.service_id && appt.service_id[0] ? appt.service_id[0].name : 'Serviço Removido';
-// CORREÇÃO: Função que checa o preço customizado (override)
-const getPrice = (appt: AppointmentItem) => {
-    // 1. Se override_price existir, use-o.
-    if (appt.override_price !== null) {
-        return appt.override_price;
-    }
-    // 2. Senão, use o preço do serviço.
-    if (appt.service_id && appt.service_id[0]) {
-        return appt.service_id[0].price;
-    }
-    // 3. Senão, 0.
-    return 0;
 };
 
 
@@ -198,6 +60,10 @@ function UpcomingAppointments({ appointments, isLoading, error, onShowDetails }:
     error: string | null,
     onShowDetails: (appt: AppointmentItem) => void 
 }) {
+  
+  // FUNÇÃO AUXILIAR CORRIGIDA (para aceitar convidados)
+  const getClientName = (appt: AppointmentItem) => appt.client_id ? appt.client_id[0]?.name : appt.guest_name || 'Cliente (Convidado)';
+  const getServiceName = (appt: AppointmentItem) => appt.service_id && appt.service_id[0] ? appt.service_id[0].name : 'Serviço Removido';
 
   if (isLoading) {
     return (
@@ -265,7 +131,6 @@ function UpcomingAppointments({ appointments, isLoading, error, onShowDetails }:
                     Pendente
                     </span>
                 )}
-                {/* BOTÃO ATIVADO */}
                 <button 
                     onClick={() => onShowDetails(appt)} 
                     className="text-sm font-medium text-mani-pink-600 hover:text-mani-pink-800"
@@ -276,18 +141,12 @@ function UpcomingAppointments({ appointments, isLoading, error, onShowDetails }:
             </li>
         )})}
       </ul>
-
-      <div className="p-6 bg-gray-50 text-center">
-         <a href="#" className="text-sm font-medium text-mani-pink-600 hover:text-mani-pink-800">
-            Ver agenda completa
-          </a>
-      </div>
     </div>
   );
 }
 
 
-// --- Componente: PendingAppointmentsCard (Novo) ---
+// --- Componente: PendingAppointmentsCard ---
 function PendingAppointmentsCard({ appointments, onConfirm, isConfirming, onShowDetails }: { 
     appointments: AppointmentItem[], 
     onConfirm: (id: number) => void, 
@@ -298,7 +157,6 @@ function PendingAppointmentsCard({ appointments, onConfirm, isConfirming, onShow
     const getClientName = (appt: AppointmentItem) => appt.client_id && appt.client_id[0] ? appt.client_id[0].name : appt.guest_name || 'Cliente (Convidado)';
     const getServiceName = (appt: AppointmentItem) => appt.service_id && appt.service_id[0] ? appt.service_id[0].name : 'Serviço Removido';
 
-    // Filtra agendamentos PENDENTES E FUTUROS
     const pendingAppointments = appointments.filter(appt => {
         const isFuture = new Date(appt.start_time) > new Date();
         return appt.status === 'pending' && isFuture;
@@ -340,7 +198,6 @@ function PendingAppointmentsCard({ appointments, onConfirm, isConfirming, onShow
                             
                             {/* Ações */}
                             <div className="mt-3 sm:mt-0 flex items-center space-x-3">
-                                {/* BOTÃO DE DETALHES */}
                                 <button 
                                     onClick={() => onShowDetails(appt)} 
                                     disabled={isBusy}
@@ -569,7 +426,7 @@ export default function DashboardPage() {
   // Exibir loader enquanto o estado de auth e role não é definido
   if (!manicureId && !error && isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="min-h-screen bg-gray-100 font-inter">
         <Loader2 className="w-8 h-8 text-mani-pink-600 animate-spin" />
         <p className="ml-3 text-gray-600">Verificando autenticação...</p>
       </div>
@@ -579,7 +436,8 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 font-inter">
-      <Header user={mockUser} manicureId={manicureId} />
+      {/* HEADER CENTRALIZADO */}
+      <ManicureHeader mockUser={mockUser} />
 
       <main className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
         

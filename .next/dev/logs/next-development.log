@@ -1,7 +1,65 @@
-[00:00:00.829] Server  LOG      ✓ Ready in 568ms
-[00:00:10.717] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:13.522] Browser ERROR   Erro de autenticação: {}
-[00:00:58.951] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:26.481] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:02:31.833] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:03:05.374] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:01.397] Server  LOG      ✓ Ready in 925ms
+[00:00:06.717] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:15.905] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:23.725] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:29.055] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:34.122] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:40.861] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:44.087] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:33:41.585] Browser ERROR   {}
+[00:33:42.589] Browser ERROR   {}
+[00:33:43.582] Browser ERROR   {}
+[00:33:44.581] Browser ERROR   {}
+[00:33:46.582] Browser ERROR   {}
+[00:48:59.221] Browser ERROR   {}
+[01:04:41.017] Browser ERROR   {}
+[01:04:42.016] Browser ERROR   {}
+[01:04:43.016] Browser ERROR   {}
+[01:22:29.811] Browser ERROR   {}
+[01:22:31.818] Browser ERROR   {}
+[01:22:31.818] Browser ERROR   {}
+[01:22:32.814] Browser ERROR   {}
+[01:22:33.811] Browser ERROR   {}
+[01:22:34.812] Browser ERROR   {}
+[01:39:46.607] Browser ERROR   {}
+[01:39:48.602] Browser ERROR   {}
+[01:39:49.601] Browser ERROR   {}
+[01:55:05.361] Browser ERROR   {}
+[01:55:06.373] Browser ERROR   {}
+[02:01:57.147] Browser ERROR   {}
+[02:01:58.138] Browser ERROR   {}
+[02:01:59.140] Browser ERROR   {}
+[02:17:13.469] Browser ERROR   {}
+[02:17:15.469] Browser ERROR   {}
+[02:34:31.275] Browser ERROR   {}
+[02:50:27.077] Browser ERROR   {}
+[02:50:28.040] Browser ERROR   {}
+[02:58:55.473] Browser ERROR   {}
+[02:58:56.472] Browser ERROR   {}
+[02:58:57.474] Browser ERROR   {}
+[02:58:58.476] Browser ERROR   {}
+[02:59:00.472] Browser ERROR   {}
+[03:00:37.304] Browser ERROR   {}
+[03:00:40.299] Browser ERROR   {}
+[03:00:41.299] Browser ERROR   {}
+[03:02:53.522] Browser ERROR   {}
+[03:02:54.521] Browser ERROR   {}
+[03:07:04.894] Browser ERROR   {}
+[03:07:05.891] Browser ERROR   {}
+[03:07:06.892] Browser ERROR   {}
+[03:07:07.890] Browser ERROR   {}
+[03:11:05.024] Browser ERROR   {}
+[03:11:09.015] Browser ERROR   {}
+[03:11:12.015] Browser ERROR   {}
+[03:15:05.699] Browser ERROR   {}
+[03:15:06.698] Browser ERROR   {}
+[03:19:50.253] Browser ERROR   {}
+[03:19:51.245] Browser ERROR   {}
+[03:23:29.668] Browser ERROR   {}
+[03:23:30.675] Browser ERROR   {}
+[03:23:31.669] Browser ERROR   {}
+[03:23:47.276] Browser ERROR   {}
+[03:23:49.857] Browser ERROR   {}
+[03:23:53.429] Browser ERROR   {}
+[03:24:00.074] Browser ERROR   {}
+[03:24:00.075] Browser ERROR   {}
